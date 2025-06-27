@@ -1,0 +1,256 @@
+{
+  "name": "Mell Luxe Cart Design System",
+  "description": "Design tokens and component styles for the Mell Luxe shopping cart page, adapted to the site's primary color scheme.",
+  "tokens": {
+    "colors": {
+      "primary": {
+        "value": "var(--primary-color, #251746)",
+        "description": "Primary background and dark text color."
+      },
+      "secondary": {
+        "value": "var(--secondary-color, #FDE28D)",
+        "description": "Accent color for buttons, links, and highlights."
+      },
+      "accent": {
+        "value": "var(--accent-color, #FDE28D)",
+        "description": "Alias for secondary color."
+      },
+      "background": {
+        "light": {
+          "value": "#FFFFFF",
+          "description": "Light background for main content areas."
+        },
+        "main": {
+          "value": "#F9FAFB",
+          "description": "Main page background color (light grey)."
+        },
+        "dark": {
+          "value": "var(--primary-color, #251746)",
+          "description": "Dark background for sidebars or contrasting sections."
+        }
+      },
+      "text": {
+        "primary": {
+          "value": "#111827",
+          "description": "Primary text color for body content."
+        },
+        "secondary": {
+          "value": "#6B7280",
+          "description": "Secondary text for labels, subtitles, and muted info."
+        },
+        "light": {
+          "value": "#ffffff",
+          "description": "Text color for dark backgrounds."
+        },
+        "accent": {
+          "value": "var(--secondary-color, #FDE28D)",
+          "description": "Text color for highlights and important prices."
+        }
+      },
+      "border": {
+        "subtle": {
+          "value": "#E5E7EB",
+          "description": "Subtle border for cards and dividers."
+        },
+        "interactive": {
+          "value": "#D1D5DB",
+          "description": "Border for input fields and interactive elements."
+        }
+      },
+      "status": {
+        "success": {
+          "value": "#10B981"
+        },
+        "error": {
+          "value": "#EF4444"
+        },
+        "warning": {
+          "value": "#F59E0B"
+        }
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "sans": {
+          "value": "var(--font-primary, 'Montserrat', sans-serif)",
+          "description": "Primary font for the interface."
+        }
+      },
+      "fontSize": {
+        "xs": "0.75rem",  
+        "sm": "0.875rem", 
+        "base": "1rem",   
+        "lg": "1.125rem",
+        "xl": "1.25rem", 
+        "2xl": "1.5rem",  
+        "3xl": "1.875rem"
+      },
+      "fontWeight": {
+        "normal": "400",
+        "medium": "500",
+        "semibold": "600",
+        "bold": "700"
+      },
+      "lineHeight": {
+        "none": "1",
+        "tight": "1.25",
+        "normal": "1.5",
+        "relaxed": "1.75"
+      }
+    },
+    "spacing": {
+      "xs": "0.25rem", 
+      "sm": "0.5rem",  
+      "md": "1rem",    
+      "lg": "1.5rem",  
+      "xl": "2rem",    
+      "2xl": "2.5rem"
+    },
+    "borderRadius": {
+      "sm": "0.25rem",
+      "md": "0.5rem",
+      "lg": "0.75rem",
+      "xl": "1rem",
+      "full": "9999px"
+    },
+    "shadows": {
+      "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      "md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+      "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
+    },
+    "transition": {
+      "default": {
+        "value": "all 0.2s ease-in-out"
+      }
+    }
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "backgroundColor": "var(--secondary-color, #FDE28D)",
+        "color": "var(--primary-color, #251746)",
+        "borderRadius": "var(--borderRadius-md, 0.5rem)",
+        "padding": "0.75rem 1.5rem",
+        "fontWeight": "var(--fontWeight-semibold, 600)",
+        "fontSize": "var(--fontSize-base, 1rem)",
+        "border": "none",
+        "transition": "var(--transition-default)",
+        "hover": {
+          "transform": "translateY(-2px)",
+          "boxShadow": "var(--shadow-lg)"
+        }
+      },
+      "secondary": {
+        "backgroundColor": "transparent",
+        "color": "var(--primary-color, #251746)",
+        "borderRadius": "var(--borderRadius-md, 0.5rem)",
+        "padding": "0.75rem 1.5rem",
+        "fontWeight": "var(--fontWeight-semibold, 600)",
+        "fontSize": "var(--fontSize-base, 1rem)",
+        "border": "1px solid var(--secondary-color, #FDE28D)",
+        "transition": "var(--transition-default)",
+        "hover": {
+          "backgroundColor": "var(--secondary-color, #FDE28D)",
+          "color": "var(--primary-color, #251746)"
+        }
+      }
+    },
+    "inputField": {
+      "backgroundColor": "#FFFFFF",
+      "color": "var(--text-primary, #111827)",
+      "border": "1px solid var(--border-interactive, #D1D5DB)",
+      "borderRadius": "var(--borderRadius-md, 0.5rem)",
+      "padding": "0.75rem 1rem",
+      "fontSize": "var(--fontSize-base, 1rem)",
+      "focus": {
+        "borderColor": "var(--secondary-color, #FDE28D)",
+        "boxShadow": "0 0 0 3px rgba(253, 226, 141, 0.5)"
+      }
+    },
+    "quantitySelector": {
+      "backgroundColor": "#FFFFFF",
+      "border": "1px solid var(--border-interactive, #D1D5DB)",
+      "borderRadius": "var(--borderRadius-full, 9999px)",
+      "padding": "0.25rem",
+      "display": "flex",
+      "alignItems": "center",
+      "gap": "0.5rem",
+      "button": {
+        "color": "var(--text-secondary, #6B7280)",
+        "borderRadius": "var(--borderRadius-full, 9999px)",
+        "width": "1.75rem",
+        "height": "1.75rem",
+        "hover": {
+          "backgroundColor": "#F3F4F6",
+          "color": "var(--text-primary, #111827)"
+        }
+      },
+      "input": {
+        "border": "none",
+        "textAlign": "center",
+        "width": "2rem",
+        "fontWeight": "var(--fontWeight-medium, 500)"
+      }
+    },
+    "card": {
+      "backgroundColor": "#FFFFFF",
+      "borderRadius": "var(--borderRadius-xl, 1rem)",
+      "padding": "var(--spacing-lg, 1.5rem)",
+      "boxShadow": "var(--shadow-md)",
+      "border": "1px solid var(--border-subtle, #E5E7EB)"
+    },
+    "cartItemCard": {
+      "display": "grid",
+      "gridTemplateColumns": "auto 1fr auto auto auto",
+      "alignItems": "center",
+      "gap": "var(--spacing-md, 1rem)",
+      "padding": "var(--spacing-lg, 1.5rem) 0",
+      "borderBottom": "1px solid var(--border-subtle, #E5E7EB)"
+    },
+    "summaryCard": {
+      "extends": "card",
+      "backgroundColor": "#F9FAFB",
+      "padding": "var(--spacing-xl, 2rem)",
+      "borderRadius": "var(--borderRadius-xl, 1rem)",
+      "border": "none"
+    },
+    "trustBadge": {
+      "backgroundColor": "#FFFFFF",
+      "borderRadius": "var(--borderRadius-lg, 0.75rem)",
+      "padding": "var(--spacing-md, 1rem)",
+      "display": "flex",
+      "alignItems": "center",
+      "gap": "var(--spacing-md, 1rem)",
+      "icon": {
+        "backgroundColor": "rgba(253, 226, 141, 0.2)",
+        "borderRadius": "var(--borderRadius-full, 9999px)",
+        "padding": "0.5rem"
+      },
+      "title": {
+        "fontWeight": "var(--fontWeight-semibold, 600)",
+        "fontSize": "var(--fontSize-sm, 0.875rem)"
+      },
+      "description": {
+        "color": "var(--text-secondary, #6B7280)",
+        "fontSize": "var(--fontSize-sm, 0.875rem)"
+      }
+    }
+  },
+  "layout": {
+    "page": {
+      "backgroundColor": "#F9FAFB",
+      "padding": "var(--spacing-xl, 2rem)"
+    },
+    "mainContent": {
+      "gridColumn": "span 2"
+    },
+    "sidebar": {
+      "gridColumn": "span 1"
+    },
+    "grid": {
+      "display": "grid",
+      "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
+      "gap": "var(--spacing-xl, 2rem)"
+    }
+  }
+} 

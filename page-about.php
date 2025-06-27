@@ -244,7 +244,7 @@ get_header(); ?>
 .cause-text-box p {
     font-size: 1rem;
     line-height: 1.7;
-    color: var(--text-dark);
+    color: #333333;
     margin-bottom: 15px;
     text-align: justify;
 }
@@ -328,7 +328,7 @@ get_header(); ?>
 .brand-values-text p {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: var(--text-dark);
+    color: #333333;
     text-align: justify;
 }
 
@@ -420,7 +420,7 @@ get_header(); ?>
 .community-text p {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: var(--text-dark);
+    color: #333333;
     text-align: justify;
 }
 

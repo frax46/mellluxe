@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initProductShowcaseAnimations();
     initBestSectionSlider();
     initCartSidebar();
+    initShopPageAnimations();
+    initViewCartFix();
+    initCartPage();
     
     /**
      * Mobile Menu Toggle
@@ -610,6 +613,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    /**
+     * Fix for WooCommerce "View cart" link
+     */
+    function initViewCartFix() {
+        // This new version directly handles the click on the 'View cart' link
+        // to ensure navigation happens, overriding any other scripts that might
+        // be trying to prevent it.
+        jQuery(document).on('click', '.added_to_cart', function(e) {
+            // Prevent other scripts from interfering.
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            const cartUrl = jQuery(this).attr('href');
+            if (cartUrl) {
+                // Force the browser to navigate to the cart page.
+                window.location.href = cartUrl;
+            }
+            return false;
+        });
+    }
 });
 
 /**
@@ -968,6 +991,217 @@ function initCartSidebar() {
             });
         }
     });
+}
+
+/**
+ * Shop Page Animations
+ */
+function initShopPageAnimations() {
+    // Only run on shop page
+    if (!document.querySelector('.shop-page-container')) {
+        return;
+    }
+    
+    // Shop Hero Animations
+    gsap.timeline()
+        .from('.shop-hero-title', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out'
+        })
+        .from('.shop-hero-subtitle', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        }, '-=0.5')
+        .from('.category-item', {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.2,
+            ease: 'back.out(1.7)'
+        }, '-=0.3')
+        .from('.hero-product-showcase', {
+            x: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.8');
+    
+    // Trust Indicators Animation
+    gsap.from('.trust-item', {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.shop-trust-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    // Collections Animation
+    gsap.from('.collection-item', {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+            trigger: '.collections-grid',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    // Enhanced Product Grid Animations
+    gsap.from('.woocommerce .product', {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.products',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+    
+    // Category hover interactions
+    const categoryItems = document.querySelectorAll('.category-item');
+    categoryItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            gsap.to(this, {
+                scale: 1.05,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            gsap.to(this, {
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    });
+    
+    // Collection overlay animations
+    const collectionItems = document.querySelectorAll('.collection-item');
+    collectionItems.forEach(item => {
+        const overlay = item.querySelector('.collection-overlay');
+        const image = item.querySelector('.collection-image img');
+        
+        item.addEventListener('mouseenter', function() {
+            gsap.to(image, {
+                scale: 1.1,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            gsap.to(image, {
+                scale: 1,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        });
+    });
+    
+    // Product sorting functionality
+    const sortSelect = document.getElementById('product-sort');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            const value = this.value;
+            // Add loading animation
+            const productsGrid = document.querySelector('.woocommerce .products');
+            if (productsGrid) {
+                gsap.to(productsGrid, {
+                    opacity: 0.5,
+                    duration: 0.3,
+                    onComplete: function() {
+                        // Trigger WooCommerce sorting
+                        const url = new URL(window.location);
+                        url.searchParams.set('orderby', value);
+                        window.location.href = url.toString();
+                    }
+                });
+            }
+        });
+    }
+}
+
+function initCartPage() {
+    const cartPage = document.querySelector('.cart-page-container');
+    if (!cartPage) return;
+
+    const updateCartButton = cartPage.querySelector('.update-cart-button');
+
+    // Handle custom quantity buttons using CSS pseudo-elements
+    cartPage.addEventListener('click', function(e) {
+        const productQuantity = e.target.closest('.product-quantity');
+        if (!productQuantity) return;
+
+        const rect = productQuantity.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const input = productQuantity.querySelector('input[type="number"]');
+        
+        if (!input) return;
+
+        let currentValue = parseInt(input.value, 10) || 0;
+
+        // Check if click is on the minus button (left side)
+        if (clickX <= 35) {
+            currentValue = Math.max(0, currentValue - 1);
+            input.value = currentValue;
+        }
+        // Check if click is on the plus button (right side)  
+        else if (clickX >= rect.width - 35) {
+            currentValue++;
+            input.value = currentValue;
+        }
+        else {
+            return; // Click was on the input itself
+        }
+
+        // Trigger change event for WooCommerce
+        const changeEvent = new Event('change', { bubbles: true });
+        input.dispatchEvent(changeEvent);
+
+        // Enable update button
+        if (updateCartButton) {
+            updateCartButton.disabled = false;
+        }
+    });
+
+    // Enable update button when quantity changes manually
+    cartPage.addEventListener('change', function(e) {
+        if (e.target.type === 'number') {
+            if (updateCartButton) {
+                updateCartButton.disabled = false;
+            }
+        }
+    });
+
+    // Handle input focus/blur for better UX
+    cartPage.addEventListener('focus', function(e) {
+        if (e.target.type === 'number') {
+            e.target.select();
+        }
+    }, true);
+
+    // For AJAX based themes, we might need to re-init this
+    document.body.addEventListener('updated_cart_totals', initCartPage);
 }
 
 // Debug function to check if AJAX variables are available
