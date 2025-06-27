@@ -4625,3 +4625,67 @@ blockquote::before {
     color: var(--primary-color);
 }
 
+/* ======================= */
+/* General Star Rating Styles */
+/* ======================= */
+
+.star-rating {
+    overflow: hidden;
+    position: relative;
+    height: 1.6em;
+    line-height: 1.6;
+    font-size: 1em; /* Base size for stars */
+    width: 5.5em;
+    vertical-align: middle;
+}
+
+.star-rating::before {
+    content: "★★★★★";
+    color: #d1d5db; /* Empty stars */
+    position: absolute;
+    top: 0;
+    left: 0;
+    letter-spacing: 0.1em;
+}
+
+.star-rating span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    height: 100%;
+    /* This hides the "Rated X out of 5" text */
+    color: transparent;
+    font-size: 0;
+}
+
+.star-rating span::before {
+    content: "★★★★★";
+    color: var(--secondary-color); /* Filled stars */
+    position: absolute;
+    top: 0;
+    left: 0;
+    letter-spacing: 0.1em;
+    /* This makes the stars visible again */
+    font-size: 1rem;
+}
+
+/* Link to reviews */
+.woocommerce-product-rating {
+    display: flex;
+    align-items: center;
+}
+
+.woocommerce-product-rating .woocommerce-review-link {
+    margin-left: 0.75em;
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.woocommerce-product-rating .woocommerce-review-link:hover {
+    color: var(--primary-color);
+}
+
