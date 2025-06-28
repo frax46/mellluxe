@@ -71,7 +71,11 @@ get_header( 'shop' ); ?>
                                     echo '<div class="product-thumbnails">';
                                     foreach ($all_images as $index => $image_id) {
                                         $is_active = ($image_id == $main_image_id) ? 'active' : '';
-                                        echo '<div class="thumbnail ' . $is_active . '" data-image="' . wp_get_attachment_image_url($image_id, 'full') . '" data-index="' . $index . '">';
+                                        $full_image_url = wp_get_attachment_image_url($image_id, 'full');
+                                        $srcset = wp_get_attachment_image_srcset($image_id, 'full');
+                                        $sizes = wp_get_attachment_image_sizes($image_id, 'full');
+                                        
+                                        echo '<div class="thumbnail ' . $is_active . '" data-image="' . $full_image_url . '" data-srcset="' . esc_attr($srcset) . '" data-sizes="' . esc_attr($sizes) . '" data-index="' . $index . '">';
                                         echo wp_get_attachment_image($image_id, 'thumbnail');
                                         echo '</div>';
                                     }
@@ -1169,6 +1173,96 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 18px;
         padding: 10px 12px;
     }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Product Gallery Functionality
+    const mainImage = document.querySelector('.product-main-img');
+    const thumbnails = document.querySelectorAll('.product-thumbnails .thumbnail');
+    const zoomBtn = document.querySelector('.zoom-btn');
+    
+    if (!mainImage || !thumbnails.length) return;
+    
+    // Thumbnail click functionality
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', function() {
+            // Remove active class from all thumbnails
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            
+            // Add active class to clicked thumbnail
+            this.classList.add('active');
+            
+            // Get the new image data
+            const newImageUrl = this.getAttribute('data-image');
+            const newSrcset = this.getAttribute('data-srcset');
+            const newSizes = this.getAttribute('data-sizes');
+            
+            if (newImageUrl) {
+                // Add fade out effect
+                mainImage.style.opacity = '0.5';
+                
+                // Change the main image source and responsive attributes
+                setTimeout(() => {
+                    mainImage.src = newImageUrl;
+                    mainImage.setAttribute('data-zoom', newImageUrl);
+                    
+                    // Update srcset and sizes for responsive images
+                    if (newSrcset) {
+                        mainImage.setAttribute('srcset', newSrcset);
+                    }
+                    if (newSizes) {
+                        mainImage.setAttribute('sizes', newSizes);
+                    }
+                    
+                    // Fade back in
+                    mainImage.style.opacity = '1';
+                }, 150);
+            }
+        });
+    });
+    
+    // Note: Zoom functionality is handled by the existing modal system above
+    
+    // Keyboard navigation for thumbnails
+    document.addEventListener('keydown', function(e) {
+        if (document.querySelector('.product-gallery:hover')) {
+            const activeThumbnail = document.querySelector('.thumbnail.active');
+            const currentIndex = Array.from(thumbnails).indexOf(activeThumbnail);
+            
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                thumbnails[currentIndex - 1].click();
+            } else if (e.key === 'ArrowRight' && currentIndex < thumbnails.length - 1) {
+                thumbnails[currentIndex + 1].click();
+            }
+        }
+    });
+});
+</script>
+
+<style>
+/* Duplicate modal styles removed - using existing .image-modal system */
+
+/* Improved thumbnail active state */
+.product-thumbnails .thumbnail.active {
+    border: 3px solid var(--primary-color);
+    transform: scale(1.05);
+}
+
+.product-thumbnails .thumbnail {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.product-thumbnails .thumbnail:hover {
+    transform: scale(1.02);
+    opacity: 0.8;
+}
+
+/* Main image transition */
+.product-main-img {
+    transition: opacity 0.3s ease;
 }
 </style>
 

@@ -10,6 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+
+
 global $product;
 
 if ( ! comments_open() ) {
@@ -62,8 +64,11 @@ if ($reviews) {
             <div class="overall-rating-box">
                 <h4>Overall Rating</h4>
                 <div class="overall-rating-value"><?php echo number_format($product->get_average_rating(), 1); ?>/5</div>
-                <div class="star-rating" style="--rating: <?php echo $product->get_average_rating(); ?>;" aria-label="Rated <?php echo $product->get_average_rating(); ?> out of 5"></div>
+                <div class="star-rating" aria-label="Rated <?php echo $product->get_average_rating(); ?> out of 5">
+                    <span style="width: <?php echo ( $product->get_average_rating() / 5 ) * 100; ?>%;"></span>
+                </div>
                 <div class="total-reviews-count">(Based on <?php echo $total_ratings; ?> reviews)</div>
+                <!-- Debug info: Average Rating = <?php echo $product->get_average_rating(); ?>, Width = <?php echo ( $product->get_average_rating() / 5 ) * 100; ?>% -->
             </div>
 
             <!-- Rating Breakdown -->
@@ -166,14 +171,24 @@ if ($reviews) {
                 }
 
                 if ( wc_review_ratings_enabled() ) {
-                    $comment_form['comment_field'] = '<div class="comment-form-rating"><label for="rating">' . esc_html__( 'Your rating', 'woocommerce' ) . ( wc_review_ratings_required() ? '&nbsp;<span class="required">*</span>' : '' ) . '</label><select name="rating" id="rating" required>
-                        <option value="">' . esc_html__( 'Rate&hellip;', 'woocommerce' ) . '</option>
-                        <option value="5">' . esc_html__( 'Perfect', 'woocommerce' ) . '</option>
-                        <option value="4">' . esc_html__( 'Good', 'woocommerce' ) . '</option>
-                        <option value="3">' . esc_html__( 'Average', 'woocommerce' ) . '</option>
-                        <option value="2">' . esc_html__( 'Not that bad', 'woocommerce' ) . '</option>
-                        <option value="1">' . esc_html__( 'Very poor', 'woocommerce' ) . '</option>
-                    </select></div>';
+                    $comment_form['comment_field'] = '<div class="comment-form-rating">
+                        <label for="rating">' . esc_html__( 'Your rating', 'woocommerce' ) . ( wc_review_ratings_required() ? '&nbsp;<span class="required">*</span>' : '' ) . '</label>
+                        <div class="stars">
+                            <a class="star-1" href="#" data-rating="1">★</a>
+                            <a class="star-2" href="#" data-rating="2">★</a>
+                            <a class="star-3" href="#" data-rating="3">★</a>
+                            <a class="star-4" href="#" data-rating="4">★</a>
+                            <a class="star-5" href="#" data-rating="5">★</a>
+                        </div>
+                        <select name="rating" id="rating" required style="display: none;">
+                            <option value="">' . esc_html__( 'Rate&hellip;', 'woocommerce' ) . '</option>
+                            <option value="5">' . esc_html__( 'Perfect', 'woocommerce' ) . '</option>
+                            <option value="4">' . esc_html__( 'Good', 'woocommerce' ) . '</option>
+                            <option value="3">' . esc_html__( 'Average', 'woocommerce' ) . '</option>
+                            <option value="2">' . esc_html__( 'Not that bad', 'woocommerce' ) . '</option>
+                            <option value="1">' . esc_html__( 'Very poor', 'woocommerce' ) . '</option>
+                        </select>
+                    </div>';
                 }
 
                 $comment_form['comment_field'] .= '<p class="comment-form-comment"><label for="comment">' . esc_html__( 'Your review', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" required></textarea></p>';
@@ -187,4 +202,146 @@ if ($reviews) {
     <?php endif; ?>
 
     <div class="clear"></div>
-</div> 
+</div>
+
+<style>
+.comment-form-rating .stars {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.comment-form-rating .stars a {
+    font-size: 24px;
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.comment-form-rating .stars a:hover,
+.comment-form-rating .stars a.hover {
+    color: #ffc107;
+}
+
+.comment-form-rating .stars a.selected {
+    color: #ffc107;
+}
+
+.comment-form-rating label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+/* Hide the default WooCommerce star rating that appears alongside our custom stars */
+#review_form p.stars {
+    display: none !important;
+}
+
+#review_form .comment-form-rating p.stars {
+    display: none !important;
+}
+
+/* Ensure individual review star ratings display correctly */
+#comments .star-rating {
+    display: inline-block;
+    position: relative;
+    font-family: 'star';
+    line-height: 1;
+    font-size: 1em;
+    width: 5.4em;
+    height: 1em;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+#comments .star-rating::before {
+    content: "★★★★★";
+    color: #d1d5db;
+    position: absolute;
+    top: 0;
+    left: 0;
+    letter-spacing: 0.1em;
+}
+
+#comments .star-rating span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    height: 100%;
+    color: transparent;
+    font-size: 0;
+}
+
+#comments .star-rating span::before {
+    content: "★★★★★";
+    color: var(--secondary-color, #ffc107);
+    position: absolute;
+    top: 0;
+    left: 0;
+    letter-spacing: 0.1em;
+    font-size: 1rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const starContainer = document.querySelector('#review_form .stars');
+    if (!starContainer) return;
+
+    const stars = starContainer.querySelectorAll('a');
+    const ratingSelect = document.getElementById('rating');
+
+    if (stars.length === 0 || !ratingSelect) return;
+
+    // Function to visually update stars based on a given rating
+    const updateStars = (rating) => {
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    };
+
+    stars.forEach((star, index) => {
+        const ratingValue = parseInt(star.getAttribute('data-rating'));
+
+        star.addEventListener('mouseover', () => {
+            // Preview rating on hover
+            stars.forEach((s, i) => {
+                const starRating = parseInt(s.getAttribute('data-rating'));
+                if (starRating <= ratingValue) {
+                    s.classList.add('hover');
+                } else {
+                    s.classList.remove('hover');
+                }
+            });
+        });
+
+        star.addEventListener('click', (e) => {
+            e.preventDefault();
+            ratingSelect.value = ratingValue; // Update the hidden dropdown
+            updateStars(ratingValue); // Persist the visual selection
+            
+            // Remove hover states after selection
+            stars.forEach(s => s.classList.remove('hover'));
+        });
+    });
+
+    starContainer.addEventListener('mouseleave', () => {
+        // On mouse leave, remove all hover previews
+        stars.forEach(star => star.classList.remove('hover'));
+    });
+
+    // Initialize stars on page load if a value already exists
+    const initialRating = parseInt(ratingSelect.value) || 0;
+    if (initialRating > 0) {
+        updateStars(initialRating);
+    }
+});
+</script> 
