@@ -3632,13 +3632,13 @@ blockquote::before {
 .cart-title {
     font-size: 1.75rem;
     font-weight: 600;
-    color: var(--text-dark, #333);
+    color: #333333;
     margin-bottom: 0.5rem;
 }
 
 .cart-count-info {
     font-size: 1rem;
-    color: var(--text-muted, #777);
+    color: #666666;
     margin-bottom: 2rem;
 }
 
@@ -3647,9 +3647,9 @@ blockquote::before {
     grid-template-columns: 3fr 1fr 1.5fr 1fr;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid #e0e0e0;
     font-weight: 600;
-    color: var(--text-muted);
+    color: #666666;
     font-size: 0.875rem;
     text-transform: uppercase;
 }
@@ -3660,7 +3660,7 @@ blockquote::before {
     gap: 1rem;
     align-items: center;
     padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .product-info {
@@ -3678,7 +3678,7 @@ blockquote::before {
 
 .product-details .product-category {
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: #888888;
     text-transform: uppercase;
     display: block;
 }
@@ -3686,9 +3686,9 @@ blockquote::before {
 .product-details .product-name a {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #333333;
     text-decoration: none;
-    transition: var(--transition);
+    transition: all 0.3s ease;
 }
 
 .product-details .product-name a:hover {
@@ -3697,13 +3697,13 @@ blockquote::before {
 
 .product-details .variation {
     font-size: 0.875rem;
-    color: var(--text-muted);
+    color: #666666;
 }
 
 .product-price, .product-total {
     font-weight: 600;
     font-size: 1.1rem;
-    color: var(--text-dark);
+    color: #333333;
 }
 
 /* WooCommerce quantity input styling */
@@ -3711,7 +3711,7 @@ blockquote::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--border-light);
+    border: 1px solid #e0e0e0;
     border-radius: 99px;
     padding: 0.25rem;
     max-width: 120px;
@@ -3741,45 +3741,94 @@ blockquote::before {
 /* Custom quantity buttons */
 .product-quantity {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.product-quantity::before,
-.product-quantity::after {
-    content: '';
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: #f1f1f1;
-    border-radius: 50%;
+.product-quantity .quantity {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background: #fff;
+}
+
+.product-quantity .qty-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f8f9fa;
+    color: #666;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     transition: var(--transition);
-    z-index: 2;
+    user-select: none;
 }
 
-.product-quantity::before {
-    content: '-';
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
+.product-quantity .qty-btn:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
 }
 
-.product-quantity::after {
-    content: '+';
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
+.product-quantity .qty-btn:active {
+    transform: scale(0.95);
+}
+
+.product-quantity .qty-btn.minus {
+    border-right: 1px solid #ddd;
+}
+
+.product-quantity .qty-btn.plus {
+    border-left: 1px solid #ddd;
+}
+
+.product-quantity .qty-btn:disabled {
+    background: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.product-quantity .qty-btn:disabled:hover {
+    background: #e9ecef;
+    color: #adb5bd;
+    transform: none;
+}
+
+.product-quantity .qty {
+    width: 60px;
+    height: 32px;
+    border: none;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: #fff;
+    color: #333;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.product-quantity .qty::-webkit-outer-spin-button,
+.product-quantity .qty::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.product-quantity .qty:focus {
+    background: #f8f9fa;
 }
 
 .remove-item {
     font-size: 1.5rem;
-    color: var(--text-muted);
+    color: #999999;
     text-decoration: none;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     margin-left: 1rem;
 }
 
@@ -3794,7 +3843,7 @@ blockquote::before {
     gap: 1rem;
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid #e0e0e0;
 }
 
 .trust-badge {
@@ -3854,11 +3903,11 @@ blockquote::before {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: var(--text-light);
+    color: #ffffff;
 }
 
 .coupon-code-section p {
-    color: var(--text-muted);
+    color: #e0e0e0;
     margin-bottom: 1rem;
 }
 
@@ -3870,10 +3919,14 @@ blockquote::before {
 .coupon-code-section .input-text {
     flex-grow: 1;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--border-light);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: var(--text-light);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.coupon-code-section .input-text::placeholder {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .coupon-code-section .button,
@@ -3911,14 +3964,14 @@ blockquote::before {
 .cart-total-section .cart_totals th,
 .cart-total-section .cart_totals td {
     padding: 1rem 0;
-    border-bottom: 1px solid var(--border-light);
-    color: var(--text-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
 }
 
 .cart-total-section .cart_totals th {
     text-align: left;
     font-weight: normal;
-    color: var(--text-muted);
+    color: #e0e0e0;
 }
 
 .cart-total-section .cart_totals td {
@@ -3930,11 +3983,41 @@ blockquote::before {
 .cart-total-section .cart_totals .order-total td {
     font-size: 1.25rem;
     border-bottom: none;
-    color: var(--text-light);
+    color: #ffffff;
 }
 
 .cart-total-section .cart_totals .order-total td {
     color: var(--secondary-color);
+}
+
+/* Coupon removal link styling */
+.cart-total-section .cart_totals .woocommerce-remove-coupon,
+.cart-total-section .cart_totals a[data-coupon] {
+    color: #ff6b6b !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.cart-total-section .cart_totals .woocommerce-remove-coupon:hover,
+.cart-total-section .cart_totals a[data-coupon]:hover {
+    background: rgba(255, 107, 107, 0.2);
+    color: #e53e3e !important;
+    transform: translateY(-1px);
+}
+
+/* Coupon code display styling */
+.cart-total-section .cart_totals tr.cart-discount td {
+    color: #ffffff !important;
+}
+
+.cart-total-section .cart_totals tr.cart-discount th {
+    color: #e0e0e0 !important;
 }
 
 .wc-proceed-to-checkout .checkout-button {
@@ -4710,5 +4793,15 @@ blockquote::before {
 
 .woocommerce-product-rating .woocommerce-review-link:hover {
     color: var(--primary-color);
+}
+
+/* Newsletter Widget (Sidebar) */
+.newsletter-input {
+    color: #fff !important;
+    background: rgba(255,255,255,0.08) !important;
+    border: 1.5px solid var(--secondary-color) !important;
+}
+.newsletter-input::placeholder {
+    color: rgba(255,255,255,0.7) !important;
 }
 

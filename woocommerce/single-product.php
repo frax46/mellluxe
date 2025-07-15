@@ -111,7 +111,7 @@ get_header( 'shop' ); ?>
                             <!-- Product Rating -->
                             <div class="product-rating-wrapper">
                                 <?php woocommerce_template_single_rating(); ?>
-                                <span class="rating-count">(<?php echo $product->get_review_count(); ?> reviews)</span>
+                                
                             </div>
                             
                             <!-- Product Price -->

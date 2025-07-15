@@ -502,3 +502,18 @@ function mellluxe_get_cart_count() {
 }
 add_action('wp_ajax_get_cart_count', 'mellluxe_get_cart_count');
 add_action('wp_ajax_nopriv_get_cart_count', 'mellluxe_get_cart_count'); 
+
+/**
+ * Reading Time Shortcode
+ */
+function mellluxe_reading_time_shortcode() {
+    global $post;
+    if (empty($post)) return '';
+    $content = $post->post_content;
+    $word_count = str_word_count(strip_tags($content));
+    $words_per_minute = 200; // Average reading speed
+    $minutes = ceil($word_count / $words_per_minute);
+    if ($minutes < 1) $minutes = 1;
+    return $minutes;
+}
+add_shortcode('reading_time', 'mellluxe_reading_time_shortcode'); 

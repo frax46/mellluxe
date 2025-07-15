@@ -80,21 +80,26 @@ get_header(); ?>
                                     <div class="product-quantity">
                                         <?php
                                         if ( $_product->is_sold_individually() ) {
-                                            $product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
+                                            echo '1 <input type="hidden" name="cart[' . $cart_item_key . '][qty]" value="1" />';
                                         } else {
-                                            $product_quantity = woocommerce_quantity_input(
-                                                array(
-                                                    'input_name'   => "cart[{$cart_item_key}][qty]",
-                                                    'input_value'  => $cart_item['quantity'],
-                                                    'max_value'    => $_product->get_max_purchase_quantity(),
-                                                    'min_value'    => '0',
-                                                    'product_name' => $_product->get_name(),
-                                                ),
-                                                $_product,
-                                                false
-                                            );
+                                            $max_value = $_product->get_max_purchase_quantity();
+                                            $min_value = 0;
+                                            $current_qty = $cart_item['quantity'];
+                                            ?>
+                                            <div class="quantity">
+                                                <button type="button" class="qty-btn minus" data-cart-key="<?php echo esc_attr( $cart_item_key ); ?>" <?php echo ($current_qty <= 1) ? 'disabled' : ''; ?>>-</button>
+                                                <input type="number" 
+                                                       name="cart[<?php echo $cart_item_key; ?>][qty]" 
+                                                       value="<?php echo esc_attr( $current_qty ); ?>" 
+                                                       min="1" 
+                                                       <?php if ( $max_value > 0 ) : ?>max="<?php echo esc_attr( $max_value ); ?>"<?php endif; ?>
+                                                       step="1" 
+                                                       class="qty" 
+                                                       data-cart-key="<?php echo esc_attr( $cart_item_key ); ?>" />
+                                                <button type="button" class="qty-btn plus" data-cart-key="<?php echo esc_attr( $cart_item_key ); ?>" <?php echo ($max_value > 0 && $current_qty >= $max_value) ? 'disabled' : ''; ?>>+</button>
+                                            </div>
+                                            <?php
                                         }
-                                        echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );
                                         ?>
                                          <a href="<?php echo esc_url( wc_get_cart_remove_url( $cart_item_key ) ); ?>" class="remove-item" title="<?php esc_attr_e( 'Remove this item', 'mellluxe' ); ?>">&times;</a>
                                     </div>
@@ -108,29 +113,7 @@ get_header(); ?>
                         ?>
                     </div>
 
-                    <div class="cart-page-trust-badges">
-                        <div class="trust-badge">
-                            <div class="trust-icon">🚚</div>
-                            <div class="trust-content">
-                                <h4>Free Shipping</h4>
-                                <p>When you spend $50+</p>
-                            </div>
-                        </div>
-                        <div class="trust-badge">
-                            <div class="trust-icon">📞</div>
-                            <div class="trust-content">
-                                <h4>Call Us Anytime</h4>
-                                <p>We offer 24 hour chat support</p>
-                            </div>
-                        </div>
-                        <div class="trust-badge">
-                            <div class="trust-icon">💳</div>
-                            <div class="trust-content">
-                                <h4>Gift Cards</h4>
-                                <p>For your loved one, in any amount</p>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <!-- Right Column: Cart Summary -->
@@ -151,15 +134,21 @@ get_header(); ?>
 
                         <div class="cart-total-section">
                             <h2><?php esc_html_e( 'Cart Total', 'mellluxe' ); ?></h2>
-                            <?php woocommerce_cart_totals(); ?>
+                            
+                            <?php 
+                            // Remove the proceed to checkout action temporarily
+                            remove_action( 'woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20 );
+                            woocommerce_cart_totals(); 
+                            ?>
+                            
                             <div class="wc-proceed-to-checkout">
                                 <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="checkout-button button alt wc-forward">
                                     <?php esc_html_e( 'Proceed to checkout', 'woocommerce' ); ?>
                                 </a>
                             </div>
                         </div>
+                        <button type="submit" class="button update-cart-button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" disabled><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
                     </div>
-                    <button type="submit" class="button update-cart-button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" disabled><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
                 </div>
 
             </div>
@@ -175,5 +164,100 @@ get_header(); ?>
 
     </main><!-- #main -->
 </div><!-- #primary -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle quantity buttons
+    const qtyButtons = document.querySelectorAll('.qty-btn');
+    const updateButton = document.querySelector('.update-cart-button');
+    
+    qtyButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const input = this.parentNode.querySelector('.qty');
+            if (!input) return;
+            
+            const currentValue = parseInt(input.value) || 1;
+            const min = parseInt(input.getAttribute('min')) || 1;
+            const maxAttr = input.getAttribute('max');
+            const max = maxAttr ? parseInt(maxAttr) : null;
+            
+            let newValue = currentValue;
+            
+            if (this.classList.contains('minus')) {
+                if (currentValue > min) {
+                    newValue = currentValue - 1;
+                    if (newValue < min) newValue = min;
+                }
+            } else if (this.classList.contains('plus')) {
+                if (max === null || currentValue < max) {
+                    newValue = currentValue + 1;
+                    if (max !== null && newValue > max) newValue = max;
+                }
+            }
+            
+            // Only update if value actually changed
+            if (newValue !== currentValue) {
+                input.value = newValue;
+                
+                // Update button states
+                const minusBtn = this.parentNode.querySelector('.minus');
+                const plusBtn = this.parentNode.querySelector('.plus');
+                
+                if (minusBtn) {
+                    minusBtn.disabled = (newValue <= min);
+                }
+                if (plusBtn) {
+                    plusBtn.disabled = (max !== null && newValue >= max);
+                }
+                
+                // Enable update cart button
+                if (updateButton) {
+                    updateButton.disabled = false;
+                }
+                
+                // Trigger change event
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    });
+    
+    // Handle direct input changes
+    const qtyInputs = document.querySelectorAll('.qty');
+    qtyInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const min = parseInt(this.getAttribute('min')) || 1;
+            const maxAttr = this.getAttribute('max');
+            const max = maxAttr ? parseInt(maxAttr) : null;
+            const value = parseInt(this.value) || 1;
+            
+            // Clamp value to min/max
+            if (value < min) {
+                this.value = min;
+            } else if (max !== null && value > max) {
+                this.value = max;
+            }
+            
+            // Update button states
+            const minusBtn = this.parentNode.querySelector('.minus');
+            const plusBtn = this.parentNode.querySelector('.plus');
+            
+            if (minusBtn) {
+                minusBtn.disabled = (parseInt(this.value) <= min);
+            }
+            if (plusBtn) {
+                plusBtn.disabled = (max !== null && parseInt(this.value) >= max);
+            }
+            
+            // Enable update cart button
+            if (updateButton) {
+                updateButton.disabled = false;
+            }
+        });
+    });
+});
+</script>
 
 <?php get_footer(); 
