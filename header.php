@@ -43,7 +43,6 @@
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
-                            <li><a href="#">Gift Card</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
 

@@ -195,16 +195,7 @@ get_header(); ?>
                         </div>
                         
                         <!-- Newsletter Signup -->
-                        <div class="sidebar-widget newsletter-widget">
-                            <div class="newsletter-card">
-                                <h3 class="newsletter-title">Beauty Tips Weekly</h3>
-                                <p class="newsletter-description">Get our latest beauty secrets, wellness tips, and exclusive offers delivered to your inbox.</p>
-                                <form class="newsletter-form">
-                                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
-                                    <button type="submit" class="newsletter-button">Subscribe</button>
-                                </form>
-                            </div>
-                        </div>
+                        <!-- Removed newsletter widget as requested -->
                         
                     </aside>
                     

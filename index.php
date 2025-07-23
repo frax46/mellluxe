@@ -310,23 +310,16 @@ get_header(); ?>
             <div class="trust-indicators" data-gsap="fade-in">
                 <div class="trust-stats">
                     <div class="stat-item">
-                        <h3>5.0</h3>
-                        <div class="stars">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                        </div>
-                        <p>Average Rating</p>
+                        <h3>100%</h3>
+                        <p>Natural Ingredients</p>
                     </div>
                     <div class="stat-item">
-                        <h3>2,500+</h3>
-                        <p>Happy Customers</p>
+                        <h3>Vegan</h3>
+                        <p>& Cruelty-Free</p>
                     </div>
                     <div class="stat-item">
-                        <h3>98%</h3>
-                        <p>Would Recommend</p>
+                        <h3>Eco</h3>
+                        <p>Friendly Packaging</p>
                     </div>
                 </div>
             </div>

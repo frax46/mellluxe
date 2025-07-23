@@ -33,21 +33,21 @@ get_header(); ?>
                     <p class="hero-subtitle">Handcrafted in the UK with 100% natural, vegan, and cruelty-free ingredients</p>
                     
                     <div class="hero-categories">
-                        <div class="category-pill" data-category="bath-body">
-                            <span class="category-emoji">🛁</span>
-                            <span>Bath & Body</span>
+                        <div class="category-pill" data-category="gents">
+                            <span class="category-emoji">👨</span>
+                            <span>Gents</span>
                         </div>
-                        <div class="category-pill" data-category="face-care">
-                            <span class="category-emoji">✨</span>
-                            <span>Face Care</span>
+                        <div class="category-pill" data-category="ladies">
+                            <span class="category-emoji">👩</span>
+                            <span>Ladies</span>
                         </div>
-                        <div class="category-pill" data-category="lip-care">
-                            <span class="category-emoji">💋</span>
-                            <span>Lip Care</span>
+                        <div class="category-pill" data-category="featured">
+                            <span class="category-emoji">⭐</span>
+                            <span>Featured</span>
                         </div>
                         <div class="category-pill" data-category="all">
                             <span class="category-emoji">🌟</span>
-                            <span>View All</span>
+                            <span>All</span>
                         </div>
                     </div>
                 </div>
@@ -96,8 +96,7 @@ get_header(); ?>
                                 <?php
                                 $product_categories = get_terms(array(
                                     'taxonomy' => 'product_cat',
-                                    'hide_empty' => true,
-                                    'parent' => 0
+                                    'hide_empty' => true
                                 ));
                                 
                                 if (!empty($product_categories)) {

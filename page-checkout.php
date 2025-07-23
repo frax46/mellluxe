@@ -21,22 +21,12 @@ get_header(); ?>
 
                 <div class="checkout-form-wrapper">
                     <?php
-                    if ( function_exists( 'woocommerce_checkout_form' ) ) {
-                        do_action( 'woocommerce_before_checkout_form' );
-                        woocommerce_checkout_form();
-                        do_action( 'woocommerce_after_checkout_form' );
+                    if ( class_exists( 'WooCommerce' ) ) {
+                        echo do_shortcode('[woocommerce_checkout]');
                     } else {
                         echo '<p style="color:red;">WooCommerce is not active. Please activate WooCommerce to use the checkout page.</p>';
                     }
                     ?>
-                </div>
-            </div>
-            <div class="checkout-summary-column">
-                <div class="summary-card">
-                    <h2 class="summary-title"><?php esc_html_e( 'Order Summary', 'mellluxe' ); ?></h2>
-                    <div class="order-review-section">
-                        <?php if ( function_exists( 'woocommerce_checkout_order_review' ) ) { do_action( 'woocommerce_checkout_order_review' ); } ?>
-                    </div>
                 </div>
             </div>
         </div>
