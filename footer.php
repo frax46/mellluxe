@@ -205,7 +205,6 @@ function mellluxe_footer_fallback_menu() {
         echo '<li><a href="' . esc_url(get_permalink($about_page->ID)) . '">' . __('About Us', 'mellluxe') . '</a></li>';
     }
     
-    echo '<li><a href="#contact">' . __('Contact', 'mellluxe') . '</a></li>';
     
     // Privacy Policy (WordPress default)
     if (function_exists('get_privacy_policy_url') && get_privacy_policy_url()) {

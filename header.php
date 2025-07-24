@@ -21,7 +21,8 @@
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                 </button>
-
+                <img class="header-logo" src="<?php echo get_template_directory_uri(); ?>/images/System Images/new-logo.png"
+                    alt="<?php bloginfo('name'); ?>">
                 <nav class="main-navigation" id="site-navigation">
                     <div class="site-branding">
                         <?php
@@ -118,7 +119,8 @@
                         <h3>Shopping Cart</h3>
                         <button class="cart-sidebar-close" id="cart-sidebar-close">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
                     </div>
@@ -131,7 +133,8 @@
                     <div class="cart-sidebar-footer">
                         <div class="cart-sidebar-total">
                             <span class="cart-total-label">Subtotal:</span>
-                            <span class="cart-total-amount" id="cart-total-amount"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
+                            <span class="cart-total-amount"
+                                id="cart-total-amount"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
                         </div>
                         <div class="cart-sidebar-actions">
                             <a href="<?php echo wc_get_cart_url(); ?>" class="btn btn-outline">View Cart</a>
