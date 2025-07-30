@@ -46,7 +46,14 @@
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
-
+                            <li>
+                                <a href="/my-account" aria-label="Login" class="nav-login-link">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="header-tools">

@@ -8,21 +8,26 @@ get_header(); ?>
 
 <div class="about-page-container">
 
-    <!-- Special Offer Banner -->
-    <div class="offer-banner">
-        <div class="offer-content">
-            <div class="offer-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </div>
-            <div class="offer-text">
-                <h3>Special Spring Offer - Buy 4 Get 15% OFF</h3>
-                <p>Free Delivery for Standard UK Orders</p>
+    <?php
+    $promo_title = function_exists('get_field') ? esc_html(get_field('promo_title')) : '';
+    $promo_text = function_exists('get_field') ? esc_html(get_field('promo_text')) : '';
+    if (!empty($promo_title)): ?>
+        <!-- Special Offer Banner -->
+        <div class="offer-banner">
+            <div class="offer-content">
+                <div class="offer-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="offer-text">
+                    <h3><?php echo $promo_title; ?></h3>
+                    <p><?php echo $promo_text; ?></p>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <!-- Get to Know Mell's Cause Section -->
     <section class="about-cause-section">

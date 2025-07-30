@@ -679,7 +679,8 @@ function initBestSectionSlider() {
         setTimeout(() => {
             const newImageSrc = thumbnails[currentIndex].getAttribute('data-img');
             const newAltText = thumbnails[currentIndex].querySelector('img').alt;
-
+            const newLink = thumbnails[currentIndex].querySelector('a').href;
+            document.querySelector('.main-product-image').querySelector('a').href = newLink;
             mainImg.src = newImageSrc;
             mainImg.alt = newAltText;
             mainImg.style.opacity = '1';
