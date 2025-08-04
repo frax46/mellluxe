@@ -407,8 +407,8 @@ $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_
         <!-- Special Offer Banner -->
         <div class="special-offer-banner" data-gsap="fade-in">
             <div class="offer-content">
-                <h3>Special Spring Offer - Buy 4 Get 15% OFF</h3>
-                <p>Free Delivery for Standard UK Orders</p>
+                <h3><?php echo $promo_title; ?></h3>
+                <p><?php echo $promo_text; ?></p>
                 <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="offer-cta">
                     Shop Now <span>→</span>
                 </a>

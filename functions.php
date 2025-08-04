@@ -166,6 +166,35 @@ if (class_exists('WooCommerce')) {
         return 12;
     }
     add_filter('loop_shop_per_page', 'mellluxe_products_per_page');
+    
+    // Prioritize in-stock products over out-of-stock products
+    function mellluxe_prioritize_in_stock_products($query) {
+        // Only modify product queries on the frontend
+        if (!is_admin() && $query->is_main_query() && (is_shop() || is_product_category() || is_product_tag())) {
+            // Add a custom orderby clause to prioritize in-stock products
+            add_filter('posts_orderby', function($orderby, $query) {
+                global $wpdb;
+                if (isset($query->query_vars['post_type']) && $query->query_vars['post_type'] === 'product') {
+                    $orderby = "CASE 
+                        WHEN pm.meta_value = 'instock' THEN 0 
+                        WHEN pm.meta_value = 'outofstock' THEN 1 
+                        ELSE 2 
+                    END ASC, " . $orderby;
+                }
+                return $orderby;
+            }, 10, 2);
+            
+            // Join with postmeta to get stock status
+            add_filter('posts_join', function($join, $query) {
+                global $wpdb;
+                if (isset($query->query_vars['post_type']) && $query->query_vars['post_type'] === 'product') {
+                    $join .= " LEFT JOIN {$wpdb->postmeta} pm ON ({$wpdb->posts}.ID = pm.post_id AND pm.meta_key = '_stock_status')";
+                }
+                return $join;
+            }, 10, 2);
+        }
+    }
+    add_action('pre_get_posts', 'mellluxe_prioritize_in_stock_products');
 }
 
 /**

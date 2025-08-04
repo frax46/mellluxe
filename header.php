@@ -47,7 +47,7 @@
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
                             <li>
-                                <a href="/my-account" aria-label="Login" class="nav-login-link">
+                                <a href="<?php echo is_user_logged_in() ? '/my-account' : '/login'; ?>" aria-label="<?php echo is_user_logged_in() ? 'My Account' : 'Login'; ?>" class="nav-login-link">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
                                         <path d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" stroke="currentColor" stroke-width="2"/>
