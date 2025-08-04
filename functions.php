@@ -533,6 +533,63 @@ add_action('wp_ajax_get_cart_count', 'mellluxe_get_cart_count');
 add_action('wp_ajax_nopriv_get_cart_count', 'mellluxe_get_cart_count'); 
 
 /**
+ * AJAX Product Search Handler
+ */
+function mellluxe_search_products() {
+    check_ajax_referer('mellluxe_nonce', 'nonce');
+    
+    if (!class_exists('WooCommerce')) {
+        wp_send_json_error('WooCommerce not active');
+        return;
+    }
+    
+    $query = sanitize_text_field($_POST['query']);
+    
+    if (empty($query) || strlen($query) < 2) {
+        wp_send_json_error('Query too short');
+        return;
+    }
+    
+    $args = array(
+        'post_type' => 'product',
+        'post_status' => 'publish',
+        'posts_per_page' => 10,
+        's' => $query,
+        'meta_query' => array(
+            array(
+                'key' => '_stock_status',
+                'value' => 'instock',
+                'compare' => '='
+            )
+        )
+    );
+    
+    $products = new WP_Query($args);
+    $results = array();
+    
+    if ($products->have_posts()) {
+        while ($products->have_posts()) {
+            $products->the_post();
+            $product = wc_get_product(get_the_ID());
+            
+            $results[] = array(
+                'id' => $product->get_id(),
+                'name' => $product->get_name(),
+                'url' => $product->get_permalink(),
+                'price' => $product->get_price_html(),
+                'image' => wp_get_attachment_image_url($product->get_image_id(), 'thumbnail') ?: wc_placeholder_img_src('thumbnail'),
+                'short_description' => wp_trim_words($product->get_short_description(), 10, '...')
+            );
+        }
+    }
+    
+    wp_reset_postdata();
+    wp_send_json_success($results);
+}
+add_action('wp_ajax_mellluxe_search_products', 'mellluxe_search_products');
+add_action('wp_ajax_nopriv_mellluxe_search_products', 'mellluxe_search_products');
+
+/**
  * Reading Time Shortcode
  */
 function mellluxe_reading_time_shortcode() {

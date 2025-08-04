@@ -58,7 +58,7 @@ get_header(); ?>
                         <div class="search-results-grid">
                             <?php while (have_posts()) : the_post(); ?>
                                 <article class="search-result-item">
-                                    <div class="search-result-content">
+                                    <div class="search-result-content<?php echo !has_post_thumbnail() ? ' no-image' : ''; ?>">
                                         
                                         <!-- Featured Image -->
                                         <?php if (has_post_thumbnail()) : ?>
@@ -109,12 +109,25 @@ get_header(); ?>
                         <!-- Pagination -->
                         <div class="search-pagination">
                             <?php
-                            the_posts_pagination(array(
-                                'mid_size' => 2,
+                            // Custom pagination function
+                            $pagination = paginate_links(array(
                                 'prev_text' => '← Previous',
                                 'next_text' => 'Next →',
+                                'type' => 'array',
+                                'mid_size' => 2,
+                                'end_size' => 1,
+                                'show_all' => false,
+                                'prev_next' => true,
                                 'class' => 'pagination-links'
                             ));
+                            
+                            if ($pagination) {
+                                echo '<ul class="pagination-links">';
+                                foreach ($pagination as $link) {
+                                    echo '<li>' . $link . '</li>';
+                                }
+                                echo '</ul>';
+                            }
                             ?>
                         </div>
                         
@@ -411,6 +424,16 @@ get_header(); ?>
     align-items: start;
 }
 
+/* When no image is present, make content take full width */
+.search-result-content.no-image {
+    grid-template-columns: 1fr;
+    padding: 35px 30px;
+}
+
+.search-result-content.no-image .search-result-title a {
+    font-size: 1.6rem;
+}
+
 .search-result-image {
     width: 200px;
     height: 150px;
@@ -568,36 +591,65 @@ get_header(); ?>
 }
 
 .pagination-links {
-    display: flex;
+    display: flex !important;
+    flex-direction: row !important;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
     flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination-links li {
+    margin: 0;
+    display: inline-block;
 }
 
 .pagination-links a,
-.pagination-links .current {
+.pagination-links .current,
+.pagination-links span {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    min-width: 50px;
     height: 50px;
     border-radius: 50%;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-}
-
-.pagination-links a {
+    padding: 0 15px;
+    font-size: 0.95rem;
+    border: 2px solid #eee;
     background: white;
     color: var(--primary-color);
-    border: 2px solid #eee;
 }
 
-.pagination-links a:hover,
-.pagination-links .current {
+.pagination-links a:hover {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 23, 70, 0.2);
+}
+
+.pagination-links .current,
+.pagination-links .page-numbers.current {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(37, 23, 70, 0.3);
+}
+
+/* Next/Previous buttons */
+.pagination-links .prev,
+.pagination-links .next,
+.pagination-links .page-numbers.prev,
+.pagination-links .page-numbers.next {
+    min-width: 120px;
+    border-radius: 25px;
+    font-size: 0.9rem;
 }
 
 /* Sidebar */
@@ -771,6 +823,10 @@ get_header(); ?>
         gap: 20px;
     }
     
+    .search-result-content.no-image {
+        padding: 25px 20px;
+    }
+    
     .search-result-image {
         width: 100%;
         height: 200px;
@@ -800,6 +856,10 @@ get_header(); ?>
     
     .search-result-content {
         padding: 20px;
+    }
+    
+    .search-result-content.no-image {
+        padding: 25px 20px;
     }
     
     .popular-topics {
@@ -833,14 +893,21 @@ get_header(); ?>
     }
     
     .pagination-links {
-        gap: 5px;
+        gap: 8px;
     }
     
     .pagination-links a,
     .pagination-links .current {
-        width: 40px;
+        min-width: 40px;
         height: 40px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        padding: 0 10px;
+    }
+    
+    .pagination-links .prev,
+    .pagination-links .next {
+        min-width: 100px;
+        font-size: 0.8rem;
     }
 }
 </style>

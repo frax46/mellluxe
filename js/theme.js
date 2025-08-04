@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initViewCartFix();
     initCartPage();
     initGetInTouchScroll();
+    initMobileSearch();
 
     function initGetInTouchScroll() {
         const getInTouchButton = document.querySelector('.btn-secondary-about');
@@ -1221,4 +1222,173 @@ function initCartPage() {
 }
 
 // Debug function to check if AJAX variables are available
-console.log('AJAX Variables:', window.mellluxe_ajax); 
+console.log('AJAX Variables:', window.mellluxe_ajax);
+
+/**
+ * Mobile Search Functionality
+ */
+function initMobileSearch() {
+    const searchToggle = document.querySelector('.mobile-search-toggle');
+    const searchModal = document.querySelector('.mobile-search-modal');
+    const searchOverlay = document.querySelector('.mobile-search-overlay');
+    const searchCancel = document.querySelector('.mobile-search-cancel');
+    const searchField = document.querySelector('.mobile-search-field');
+    const searchTags = document.querySelectorAll('.search-tag');
+    const searchResults = document.querySelector('#mobile-search-results');
+    const searchForm = document.querySelector('.mobile-search-form');
+
+    if (!searchToggle || !searchModal) {
+        console.log('Search elements not found:', {
+            searchToggle: !!searchToggle,
+            searchModal: !!searchModal
+        });
+        return;
+    }
+    
+    console.log('Mobile search initialized successfully');
+
+    // Open search modal
+    searchToggle.addEventListener('click', function() {
+        openSearchModal();
+    });
+
+    // Close search modal
+    function closeSearchModal() {
+        searchModal.classList.remove('active');
+        searchToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        searchField.value = '';
+        searchResults.innerHTML = '';
+        
+        // Focus trap
+        searchToggle.focus();
+    }
+
+    function openSearchModal() {
+        searchModal.classList.add('active');
+        searchToggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on search field
+        setTimeout(() => {
+            searchField.focus();
+        }, 300);
+    }
+
+    // Close on overlay click
+    if (searchOverlay) {
+        searchOverlay.addEventListener('click', closeSearchModal);
+    }
+
+    // Close on cancel button
+    if (searchCancel) {
+        searchCancel.addEventListener('click', closeSearchModal);
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+            closeSearchModal();
+        }
+    });
+
+    // Handle search tag clicks
+    searchTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            const searchTerm = this.getAttribute('data-search');
+            searchField.value = searchTerm;
+            performSearch(searchTerm);
+        });
+    });
+
+    // Handle search input
+    let searchTimeout;
+    searchField.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        clearTimeout(searchTimeout);
+        
+        if (query.length >= 2) {
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        } else {
+            searchResults.innerHTML = '';
+        }
+    });
+
+    // Handle form submission
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = searchField.value.trim();
+            if (query) {
+                // Submit the form to WordPress search
+                this.submit();
+            }
+        });
+    }
+
+    // Perform AJAX search
+    function performSearch(query) {
+        if (!query || query.length < 2) return;
+
+        searchResults.innerHTML = '<div class="search-loading">Searching...</div>';
+
+        // Create form data
+        const formData = new FormData();
+        formData.append('action', 'mellluxe_search_products');
+        formData.append('query', query);
+        formData.append('nonce', mellluxe_ajax.nonce);
+
+        // Send AJAX request
+        fetch(mellluxe_ajax.ajax_url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displaySearchResults(data.data);
+            } else {
+                searchResults.innerHTML = '<div class="search-error">No products found</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Search error:', error);
+            searchResults.innerHTML = '<div class="search-error">Search failed</div>';
+        });
+    }
+
+    // Display search results
+    function displaySearchResults(products) {
+        if (!products || products.length === 0) {
+            searchResults.innerHTML = '<div class="search-no-results">No products found</div>';
+            return;
+        }
+
+        let html = '';
+        products.forEach(product => {
+            html += `
+                <div class="search-result-item">
+                    <img src="${product.image}" alt="${product.name}" class="search-result-image">
+                    <div class="search-result-details">
+                        <h4>${product.name}</h4>
+                        <p>${product.short_description}</p>
+                    </div>
+                    <div class="search-result-price">${product.price}</div>
+                </div>
+            `;
+        });
+
+        searchResults.innerHTML = html;
+
+        // Add click handlers to results
+        const resultItems = searchResults.querySelectorAll('.search-result-item');
+        resultItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                window.location.href = products[index].url;
+            });
+        });
+    }
+} 

@@ -23,6 +23,12 @@
                 </button>
                 <img class="header-logo" src="<?php echo get_template_directory_uri(); ?>/images/System Images/new-logo.png"
                     alt="<?php bloginfo('name'); ?>">
+                <!-- Mobile Search Toggle -->
+                <button class="mobile-search-toggle" aria-label="Toggle search" aria-expanded="false">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
                 <nav class="main-navigation" id="site-navigation">
                     <div class="site-branding">
                         <?php
@@ -58,7 +64,7 @@
                     </div>
                     <div class="header-tools">
                         <!-- Product Search -->
-                        <div class="header-search">
+                        <!-- <div class="header-search">
                             <?php if (class_exists('WooCommerce')): ?>
                                 <form role="search" method="get" class="woocommerce-product-search"
                                     action="<?php echo esc_url(home_url('/')); ?>">
@@ -77,7 +83,7 @@
                                     </button>
                                 </form>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
 
                         <!-- Shopping Cart -->
                         <div class="header-cart">
@@ -152,6 +158,43 @@
             </div>
         <?php endif; ?>
 
+        <!-- Mobile Search Modal -->
+        <div class="mobile-search-modal" id="mobile-search-modal">
+            <div class="mobile-search-overlay" id="mobile-search-overlay"></div>
+            <div class="mobile-search-content">
+                <div class="mobile-search-header">
+                    <form role="search" method="get" class="mobile-search-form" action="<?php echo esc_url(home_url('/')); ?>">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <input type="search" id="mobile-search-field" class="mobile-search-field" placeholder="Search products..." value="<?php echo get_search_query(); ?>" name="s" autocomplete="off" />
+                            <input type="hidden" name="post_type" value="product" />
+                        </div>
+                        <button type="button" class="mobile-search-cancel" id="mobile-search-cancel">Cancel</button>
+                    </form>
+                </div>
+                <div class="mobile-search-body">
+                    <div class="popular-search-terms">
+                        <h3>Popular Search Terms</h3>
+                        <div class="search-tags">
+                            <button class="search-tag" data-search="bath bombs">Bath Bombs</button>
+                            <button class="search-tag" data-search="body oils">Body Oils</button>
+                            <button class="search-tag" data-search="facial polish">Facial Polish</button>
+                            <button class="search-tag" data-search="lip butters">Lip Butters</button>
+                            <button class="search-tag" data-search="bath salts">Bath Salts</button>
+                            <button class="search-tag" data-search="gift sets">Gift Sets</button>
+                            <button class="search-tag" data-search="natural">Natural</button>
+                            <button class="search-tag" data-search="luxury">Luxury</button>
+                        </div>
+                    </div>
+                    <div class="search-results" id="mobile-search-results">
+                        <!-- Search results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- <div id="content" class="site-content"> -->
 
         <?php
@@ -175,12 +218,12 @@
                 echo '<div class="mega-menu-section">';
                 echo '<div class="mega-menu-title">Bath & Body</div>';
                 echo '<div class="mega-menu-links">';
-                echo '<a href="#">Bath Bombs</a>';
-                echo '<a href="#">Body Oils</a>';
-                echo '<a href="#">Body Scrubs</a>';
-                echo '<a href="#">Bath Salts</a>';
-                echo '<a href="#">Shower Gels</a>';
-                echo '<a href="#">Body Butters</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/bath-bombs/')) . '">Bath Bombs</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/body-oils/')) . '">Body Oils</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/body-scrubs/')) . '">Body Scrubs</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/bath-salts/')) . '">Bath Salts</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/shower-gels/')) . '">Shower Gels</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/body-butters/')) . '">Body Butters</a>';
                 echo '</div>';
                 echo '</div>';
 
@@ -188,12 +231,12 @@
                 echo '<div class="mega-menu-section">';
                 echo '<div class="mega-menu-title">Face Care</div>';
                 echo '<div class="mega-menu-links">';
-                echo '<a href="#">Facial Polish</a>';
-                echo '<a href="#">Face Serums</a>';
-                echo '<a href="#">Face Oils</a>';
-                echo '<a href="#">Cleansers</a>';
-                echo '<a href="#">Moisturizers</a>';
-                echo '<a href="#">Face Masks</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/facial-polish/')) . '">Facial Polish</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/face-serums/')) . '">Face Serums</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/face-oils/')) . '">Face Oils</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/cleansers/')) . '">Cleansers</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/moisturizers/')) . '">Moisturizers</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/face-masks/')) . '">Face Masks</a>';
                 echo '</div>';
                 echo '</div>';
 
@@ -201,10 +244,10 @@
                 echo '<div class="mega-menu-section">';
                 echo '<div class="mega-menu-title">Lip Care</div>';
                 echo '<div class="mega-menu-links">';
-                echo '<a href="#">Lip Butters</a>';
-                echo '<a href="#">Lip Balms</a>';
-                echo '<a href="#">Lip Scrubs</a>';
-                echo '<a href="#">Lip Oils</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/lip-butters/')) . '">Lip Butters</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/lip-balms/')) . '">Lip Balms</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/lip-scrubs/')) . '">Lip Scrubs</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/lip-oils/')) . '">Lip Oils</a>';
                 echo '</div>';
                 echo '</div>';
 
@@ -212,11 +255,11 @@
                 echo '<div class="mega-menu-section">';
                 echo '<div class="mega-menu-title">Collections</div>';
                 echo '<div class="mega-menu-links">';
-                echo '<a href="#">Gift Sets</a>';
-                echo '<a href="#">Travel Size</a>';
-                echo '<a href="#">Seasonal</a>';
-                echo '<a href="#">Limited Edition</a>';
-                echo '<a href="#">Best Sellers</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/gift-sets/')) . '">Gift Sets</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/travel-size/')) . '">Travel Size</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/seasonal/')) . '">Seasonal</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/limited-edition/')) . '">Limited Edition</a>';
+                echo '<a href="' . esc_url(home_url('/product-category/best-sellers/')) . '">Best Sellers</a>';
                 echo '</div>';
                 echo '</div>';
 
