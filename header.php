@@ -64,7 +64,7 @@
                     </div>
                     <div class="header-tools">
                         <!-- Product Search -->
-                        <!-- <div class="header-search">
+                        <div class="header-search">
                             <?php if (class_exists('WooCommerce')): ?>
                                 <form role="search" method="get" class="woocommerce-product-search"
                                     action="<?php echo esc_url(home_url('/')); ?>">
@@ -83,7 +83,7 @@
                                     </button>
                                 </form>
                             <?php endif; ?>
-                        </div> -->
+                        </div>
 
                         <!-- Shopping Cart -->
                         <div class="header-cart">

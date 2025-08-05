@@ -393,14 +393,14 @@ body {
     }
 }
 
-.header-container{
-    .header-logo{
-       display: none;
+.header-container {
+    .header-logo {
+        display: none;
     }
 }
 
-.page-content-container{
-    color:black;
+.page-content-container {
+    color: black;
 }
 
 @media (max-width: 1200px) {
@@ -493,15 +493,16 @@ body {
             }
         }
     }
-    .header-container{
-        .header-logo{
+
+    .header-container {
+        .header-logo {
             display: block;
             width: 100px;
             height: 100px;
             position: absolute;
-            top:50%;
-            left:50%;
-            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 }
@@ -565,10 +566,10 @@ body {
     }
 
     .showcase-description {
-        width: 100vw!important;
-        position: absolute!important;
-        left: 0!important;
-        
+        width: 100vw !important;
+        position: absolute !important;
+        left: 0 !important;
+
     }
 }
 
@@ -4186,38 +4187,38 @@ blockquote::before {
     .mobile-search-toggle {
         display: block;
     }
-    
 
-    
+
+
     .mobile-search-header {
         padding: 15px;
     }
-    
+
     .mobile-search-form {
         gap: 10px;
     }
-    
+
     .search-input-wrapper {
         padding: 10px 14px;
     }
-    
+
     .mobile-search-field {
         font-size: 16px;
     }
-    
+
     .mobile-search-cancel {
         font-size: 16px;
         padding: 6px 10px;
     }
-    
+
     .mobile-search-body {
         padding: 15px;
     }
-    
+
     .popular-search-terms h3 {
         font-size: 16px;
     }
-    
+
     .search-tag {
         font-size: 13px;
         padding: 6px 12px;
@@ -4228,28 +4229,28 @@ blockquote::before {
     .mobile-search-header {
         padding: 12px;
     }
-    
+
     .mobile-search-form {
         gap: 8px;
     }
-    
+
     .search-input-wrapper {
         padding: 8px 12px;
     }
-    
+
     .mobile-search-cancel {
         font-size: 14px;
         padding: 4px 8px;
     }
-    
+
     .mobile-search-body {
         padding: 12px;
     }
-    
+
     .search-tags {
         gap: 8px;
     }
-    
+
     .search-tag {
         font-size: 12px;
         padding: 5px 10px;
@@ -4730,6 +4731,15 @@ blockquote::before {
 @media (max-width: 992px) {
     .cart-layout-grid {
         grid-template-columns: 1fr;
+    }
+
+    .mobile-search-toggle {
+        display: block;
+    }
+
+    .header-search {
+        display: none;
+        align-items: center;
     }
 }
 

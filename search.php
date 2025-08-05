@@ -57,7 +57,7 @@ get_header(); ?>
                         <!-- Results Grid -->
                         <div class="search-results-grid">
                             <?php while (have_posts()) : the_post(); ?>
-                                <article class="search-result-item">
+                                <article class="search-result-item search-page">
                                     <div class="search-result-content<?php echo !has_post_thumbnail() ? ' no-image' : ''; ?>">
                                         
                                         <!-- Featured Image -->
@@ -450,6 +450,13 @@ get_header(); ?>
 
 .search-result-item:hover .search-result-image img {
     transform: scale(1.05);
+}
+/* france  */
+.search-result-item.search-page{
+    border:unset;
+}
+.search-result-item.search-page:hover{
+    background:unset;
 }
 
 .search-result-text {

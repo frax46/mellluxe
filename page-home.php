@@ -30,6 +30,10 @@ $our_best_image_2_link = function_exists('get_field') ? esc_html(get_field('our_
 $our_best_image_3_link = function_exists('get_field') ? esc_html(get_field('our_best_image_3_link')) : '';
 $our_best_image_4_link = function_exists('get_field') ? esc_html(get_field('our_best_image_4_link')) : '';
 $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_best_image_5_link')) : '';
+$hero_image2_link = function_exists('get_field') ? esc_html(get_field('hero_image2_link')) : '';
+$home_image_1_left_link = function_exists('get_field') ? esc_html(get_field('home_image_1_left_link')) : '';
+$home_image_1_right_link = function_exists('get_field') ? esc_html(get_field('home_image_1_right_link')) : '';
+                                
 
 
 
@@ -93,8 +97,10 @@ $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_
                 <div class="showcase-content">
                     <div class="showcase-images">
                         <div class="product-display">
-                            <img src="<?php $hero_image = function_exists('get_field') ? esc_html(get_field('hero_image2')) : '';
-                            echo $hero_image; ?>" alt="Bath Products" class="hero-product-img">
+                            <a href="<?php echo $hero_image2_link ?>">
+                                <img src="<?php $hero_image = function_exists('get_field') ? esc_html(get_field('hero_image2')) : '';
+                                echo $hero_image; ?>" alt="Bath Products" class="hero-product-img">
+                            </a>
                         </div>
                     </div>
                     <div class="showcase-text">
@@ -126,6 +132,7 @@ $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_
                     <div class="brand-content">
                         <div class="brand-images">
                             <div class="brand-product-left">
+                                <a href="<?php echo $home_image_1_left_link; ?>">
                                 <img src="<?php echo $home_image_1_left; ?>" alt="Luxury Body Oil"
                                     class="brand-product-img">
                             </div>
@@ -135,8 +142,10 @@ $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_
                                 </div>
                             </div>
                             <div class="brand-product-right">
-                                <img src="<?php echo $home_image_1_right; ?>" alt="Facial Cleansing Dough"
-                                    class="brand-product-img">
+                                <a href="<?php echo $home_image_1_right_link; ?>">
+                                    <img src="<?php echo $home_image_1_right; ?>" alt="Facial Cleansing Dough"
+                                        class="brand-product-img">
+                                </a>
                             </div>
                         </div>
                     </div>
