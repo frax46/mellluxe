@@ -41,7 +41,17 @@ get_header(); ?>
                     <h1 class="single-post-title"><?php the_title(); ?></h1>
                     <div class="post-author-info">
                         <div class="author-avatar">
-                            <?php echo get_avatar(get_the_author_meta('ID'), 50); ?>
+                            <?php
+                            $author_id = get_the_author_meta('ID');
+                            $local_avatar = get_user_meta($author_id, 'simple_local_avatar', true);
+                            if (!empty($local_avatar) && is_array($local_avatar)) {
+                                $avatar_size = 50;
+                                $avatar_url = isset($local_avatar[$avatar_size]) ? $local_avatar[$avatar_size] : (isset($local_avatar['full']) ? $local_avatar['full'] : reset($local_avatar));
+                                echo '<img src="' . esc_url($avatar_url) . '" alt="' . esc_attr(get_the_author()) . '" />';
+                            } else {
+                                echo get_avatar($author_id, 50);
+                            }
+                            ?>
                         </div>
                         <div class="author-details">
                             <span class="author-name">By <?php the_author(); ?></span>
@@ -77,7 +87,17 @@ get_header(); ?>
                         <div class="author-bio-section">
                             <div class="author-bio-card">
                                 <div class="author-bio-avatar">
-                                    <?php echo get_avatar(get_the_author_meta('ID'), 80); ?>
+                                    <?php
+                                    $author_id = get_the_author_meta('ID');
+                                    $local_avatar = get_user_meta($author_id, 'simple_local_avatar', true);
+                                    if (!empty($local_avatar) && is_array($local_avatar)) {
+                                        $avatar_size = 80;
+                                        $avatar_url = isset($local_avatar[$avatar_size]) ? $local_avatar[$avatar_size] : (isset($local_avatar['full']) ? $local_avatar['full'] : reset($local_avatar));
+                                        echo '<img src="' . esc_url($avatar_url) . '" alt="' . esc_attr(get_the_author()) . '" />';
+                                    } else {
+                                        echo get_avatar($author_id, 80);
+                                    }
+                                    ?>
                                 </div>
                                 <div class="author-bio-content">
                                     <h4 class="author-bio-name"><?php the_author(); ?></h4>

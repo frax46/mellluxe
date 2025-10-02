@@ -11,23 +11,27 @@ get_header(); ?>
     <?php
     $promo_title = function_exists('get_field') ? esc_html(get_field('promo_title')) : '';
     $promo_text = function_exists('get_field') ? esc_html(get_field('promo_text')) : '';
-    if (!empty($promo_title)): ?>
-        <!-- Special Offer Banner -->
-        <div class="offer-banner">
-            <div class="offer-content">
-                <div class="offer-icon">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <div class="offer-text">
-                    <h3><?php echo $promo_title; ?></h3>
-                    <p><?php echo $promo_text; ?></p>
+    
+
+        if (!empty($promo_title)): ?>
+            <!-- Special Offer Banner -->
+            <div class="offer-banner" aria-label="Special offer">
+                <div class="offer-marquee">
+                    <div class="offer-track">
+                        <div class="offer-group">
+                            <?php for ($i = 0; $i < 6; $i++): ?>
+                                <span class="offer-item"><?php echo $promo_title; ?> — <?php echo $promo_text; ?></span>
+                            <?php endfor; ?>
+                        </div>
+                        <div class="offer-group" aria-hidden="true">
+                            <?php for ($i = 0; $i < 6; $i++): ?>
+                                <span class="offer-item"><?php echo $promo_title; ?> — <?php echo $promo_text; ?></span>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
 
     <!-- Get to Know Mell's Cause Section -->
     <section class="about-cause-section">
@@ -163,7 +167,7 @@ get_header(); ?>
 
 <style>
     .about-page-container {
-        margin-top: 80px;
+        margin-top: 100px;
     }
 
     /* Offer Banner */

@@ -33,6 +33,8 @@ function mellluxe_setup() {
     
     // Set content width
     $GLOBALS['content_width'] = 1200;
+    
+    // Favicon support is handled separately to avoid conflicts
 }
 add_action('after_setup_theme', 'mellluxe_setup');
 
@@ -334,6 +336,25 @@ function mellluxe_customize_register($wp_customize) {
         'section' => 'mellluxe_contact',
         'type' => 'email',
     ));
+
+    // Favicon section
+    $wp_customize->add_section('mellluxe_favicon', array(
+        'title' => __('Favicon', 'mellluxe'),
+        'priority' => 30,
+    ));
+    
+    // Favicon setting
+    $wp_customize->add_setting('mellluxe_favicon', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    
+    // Favicon control
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'mellluxe_favicon', array(
+        'label' => __('Upload Favicon', 'mellluxe'),
+        'section' => 'mellluxe_favicon',
+        'settings' => 'mellluxe_favicon',
+    )));
 }
 add_action('customize_register', 'mellluxe_customize_register');
 
@@ -603,3 +624,135 @@ function mellluxe_reading_time_shortcode() {
     return $minutes;
 }
 add_shortcode('reading_time', 'mellluxe_reading_time_shortcode'); 
+
+
+
+/**
+ * Cookie Consent Functions
+ */
+function mellluxe_cookie_consent() {
+	// Only load banner and script if no prior consent choice
+	if (!isset($_COOKIE['mellluxe_cookie_consent'])) {
+		add_action('wp_footer', 'mellluxe_cookie_banner_html');
+		add_action('wp_enqueue_scripts', 'mellluxe_cookie_consent_scripts');
+	}
+}
+add_action('init', 'mellluxe_cookie_consent');
+
+/**
+ * Enqueue cookie consent scripts
+ */
+function mellluxe_cookie_consent_scripts() {
+	// Use ad-block safe filename
+	wp_enqueue_script('mellluxe-site-prefs', get_template_directory_uri() . '/js/site-prefs.js', array(), '1.0.0', true);
+	wp_localize_script('mellluxe-site-prefs', 'mellluxe_cookie_ajax', array(
+		'ajax_url' => admin_url('admin-ajax.php'),
+		'nonce' => wp_create_nonce('mellluxe_cookie_nonce')
+	));
+}
+
+/**
+ * Cookie banner HTML
+ */
+function mellluxe_cookie_banner_html() {
+	?>
+	<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none;">
+		<div class="cookie-consent-content">
+			<div class="cookie-consent-text">
+				<h3>🍪 We use cookies</h3>
+				<p>We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.</p>
+				<div class="cookie-consent-links">
+					<a href="/privacy-policy" target="_blank">Privacy Policy</a>
+					<a href="/cookie-policy" target="_blank">Cookie Policy</a>
+				</div>
+			</div>
+			<div class="cookie-consent-buttons">
+				<button type="button" class="cookie-consent-btn cookie-consent-reject" data-action="reject">
+					Reject All
+				</button>
+				<button type="button" class="cookie-consent-btn cookie-consent-accept" data-action="accept">
+					Accept All
+				</button>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+
+/**
+ * AJAX handler for cookie consent
+ */
+function mellluxe_handle_cookie_consent() {
+	// Verify nonce
+	if (!wp_verify_nonce($_POST['nonce'], 'mellluxe_cookie_nonce')) {
+		wp_die('Security check failed');
+	}
+	
+	$consent_action = sanitize_text_field($_POST['consent_action']);
+	$expiry = 365 * 24 * 60 * 60; // 1 year
+	
+	if ($consent_action === 'accept') {
+		setcookie('mellluxe_cookie_consent', 'accepted', time() + $expiry, '/', '', is_ssl(), true);
+		setcookie('mellluxe_analytics_cookies', 'enabled', time() + $expiry, '/', '', is_ssl(), true);
+		setcookie('mellluxe_marketing_cookies', 'enabled', time() + $expiry, '/', '', is_ssl(), true);
+	} elseif ($consent_action === 'reject') {
+		setcookie('mellluxe_cookie_consent', 'rejected', time() + $expiry, '/', '', is_ssl(), true);
+		setcookie('mellluxe_analytics_cookies', 'disabled', time() + $expiry, '/', '', is_ssl(), true);
+		setcookie('mellluxe_marketing_cookies', 'disabled', time() + $expiry, '/', '', is_ssl(), true);
+	}
+	
+	wp_send_json_success(array('message' => 'Cookie preference saved'));
+}
+add_action('wp_ajax_mellluxe_cookie_consent', 'mellluxe_handle_cookie_consent');
+add_action('wp_ajax_nopriv_mellluxe_cookie_consent', 'mellluxe_handle_cookie_consent');
+
+/**
+ * Check if analytics cookies are enabled
+ */
+function mellluxe_analytics_cookies_enabled() {
+    return isset($_COOKIE['mellluxe_analytics_cookies']) && $_COOKIE['mellluxe_analytics_cookies'] === 'enabled';
+}
+
+/**
+ * Check if marketing cookies are enabled
+ */
+function mellluxe_marketing_cookies_enabled() {
+    return isset($_COOKIE['mellluxe_marketing_cookies']) && $_COOKIE['mellluxe_marketing_cookies'] === 'enabled';
+} 
+
+/**
+ * Output favicon in head - improved version with Edge support
+ */
+function mellluxe_favicon_output() {
+    // Get the favicon from WordPress customizer
+    $favicon = get_theme_mod('mellluxe_favicon');
+    
+    // Add cache-busting parameter for Edge
+    $cache_buster = '?v=' . time();
+    
+    if ($favicon) {
+        // Output the custom favicon from WordPress settings with multiple formats for Edge
+        echo '<link rel="icon" type="image/x-icon" href="' . esc_url($favicon) . $cache_buster . '">' . "\n";
+        echo '<link rel="icon" type="image/png" href="' . esc_url($favicon) . $cache_buster . '">' . "\n";
+        
+        // Edge-specific favicon tags
+        echo '<link rel="shortcut icon" href="' . esc_url($favicon) . $cache_buster . '">' . "\n";
+        echo '<link rel="icon" href="' . esc_url($favicon) . $cache_buster . '">' . "\n";
+        
+        // Add Apple touch icon if it's a PNG
+        $file_extension = pathinfo($favicon, PATHINFO_EXTENSION);
+        if ($file_extension === 'png') {
+            echo '<link rel="apple-touch-icon" href="' . esc_url($favicon) . $cache_buster . '">' . "\n";
+        }
+        
+        // Debug output (remove this after testing)
+        echo '<!-- Favicon Debug: ' . esc_url($favicon) . ' -->' . "\n";
+    } else {
+        // Fallback to default favicon if none is set
+        $default_favicon = get_template_directory_uri() . '/images/favicon.ico';
+        echo '<link rel="icon" type="image/x-icon" href="' . esc_url($default_favicon) . $cache_buster . '">' . "\n";
+        echo '<link rel="shortcut icon" href="' . esc_url($default_favicon) . $cache_buster . '">' . "\n";
+        echo '<!-- Favicon Debug: No custom favicon set, using default -->' . "\n";
+    }
+}
+add_action('wp_head', 'mellluxe_favicon_output'); 

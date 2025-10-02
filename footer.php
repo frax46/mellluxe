@@ -97,6 +97,45 @@
                 <div class="footer-copyright">
                     <div class="copyright-content">
                         <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. <?php _e('All rights reserved.', 'mellluxe'); ?></p>
+                        
+                        <!-- Cookie Preferences -->
+                        <div class="cookie-preferences">
+                            <button type="button" class="cookie-preferences-btn" id="cookie-preferences-toggle">
+                                🍪 Cookie Preferences
+                            </button>
+                            <div class="cookie-preferences-panel" id="cookie-preferences-panel" style="display: none;">
+                                <h4>Cookie Settings</h4>
+                                <div class="cookie-option">
+                                    <label class="cookie-toggle">
+                                        <input type="checkbox" id="analytics-cookies" checked disabled>
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">Essential Cookies (Required)</span>
+                                    </label>
+                                    <p class="cookie-description">These cookies are necessary for the website to function properly.</p>
+                                </div>
+                                <div class="cookie-option">
+                                    <label class="cookie-toggle">
+                                        <input type="checkbox" id="analytics-cookies-optional">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">Analytics Cookies</span>
+                                    </label>
+                                    <p class="cookie-description">Help us understand how visitors use our website.</p>
+                                </div>
+                                <div class="cookie-option">
+                                    <label class="cookie-toggle">
+                                        <input type="checkbox" id="marketing-cookies-optional">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">Marketing Cookies</span>
+                                    </label>
+                                    <p class="cookie-description">Used to deliver personalized advertisements.</p>
+                                </div>
+                                <div class="cookie-preferences-actions">
+                                    <button type="button" class="cookie-save-btn" id="cookie-save-preferences">Save Preferences</button>
+                                    <button type="button" class="cookie-reset-btn" id="cookie-reset-preferences">Reset to Default</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="footer-legal">
                             <?php if (function_exists('get_privacy_policy_url') && get_privacy_policy_url()) : ?>
                                 <a href="<?php echo esc_url(get_privacy_policy_url()); ?>" class="legal-link">
