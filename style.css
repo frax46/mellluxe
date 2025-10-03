@@ -125,12 +125,115 @@ body {
 
         li {
             list-style: none;
+            position: relative;
 
             a {
                 text-decoration: none;
                 color: var(--secondary-color);
                 padding: 10px 0;
                 display: block;
+                transition: var(--transition);
+            }
+
+            &:hover a {
+                color: var(--text-light);
+            }
+
+            /* Categories Dropdown Styles */
+            &.categories-menu {
+                .categories-dropdown {
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--primary-color);
+                    border: 1px solid var(--border-light);
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow-medium);
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.3s ease;
+                    z-index: 1000;
+                    min-width: 300px;
+                    margin-top: 10px;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: -8px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 0;
+                        height: 0;
+                        border-left: 8px solid transparent;
+                        border-right: 8px solid transparent;
+                        border-bottom: 8px solid var(--border-light);
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: -7px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 0;
+                        height: 0;
+                        border-left: 7px solid transparent;
+                        border-right: 7px solid transparent;
+                        border-bottom: 7px solid var(--primary-color);
+                    }
+                }
+
+                &:hover .categories-dropdown {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .categories-content {
+                    padding: 20px;
+                }
+
+                .categories-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 10px;
+                }
+
+                .category-item {
+                    .category-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 8px 12px;
+                        border-radius: 6px;
+                        transition: var(--transition);
+                        color: var(--text-light);
+                        text-decoration: none;
+
+                        &:hover {
+                            background: var(--border-light);
+                            color: var(--secondary-color);
+                        }
+                    }
+
+                    .category-name {
+                        font-weight: 500;
+                        font-size: 14px;
+                    }
+
+                    .category-count {
+                        font-size: 12px;
+                        color: var(--text-muted);
+                        font-weight: 400;
+                    }
+                }
+
+                .no-categories {
+                    text-align: center;
+                    color: var(--text-muted);
+                    padding: 20px;
+                    font-style: italic;
+                }
             }
         }
     }
@@ -3269,6 +3372,90 @@ blockquote::before {
         transform: translateX(5px);
     }
 
+    /* Mobile Categories Menu Styles */
+    .links ul li.categories-menu {
+        position: relative;
+    }
+
+    .links ul li.categories-menu .categories-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .links ul li.categories-menu .categories-toggle::after {
+        content: '▼';
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+        color: var(--secondary-color);
+    }
+
+    .links ul li.categories-menu.active .categories-toggle::after {
+        transform: rotate(180deg);
+    }
+
+    .links ul li.categories-menu .categories-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: rgba(0, 0, 0, 0.2);
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .links ul li.categories-menu.active .categories-dropdown {
+        max-height: 500px;
+    }
+
+    .links ul li.categories-menu .categories-content {
+        padding: 0 15px;
+    }
+
+    .links ul li.categories-menu .categories-grid {
+        display: block;
+    }
+
+    .links ul li.categories-menu .category-item {
+        margin: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .links ul li.categories-menu .category-item:last-child {
+        border-bottom: none;
+    }
+
+    .links ul li.categories-menu .category-link {
+        display: block;
+        padding: 12px 0;
+        color: var(--text-light);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 400;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        padding-left: 15px;
+    }
+
+    .links ul li.categories-menu .category-link:hover {
+        color: var(--secondary-color);
+        border-left-color: var(--secondary-color);
+        background: rgba(253, 226, 141, 0.1);
+        transform: translateX(5px);
+    }
+
+    .links ul li.categories-menu .category-count {
+        opacity: 0.7;
+        font-size: 0.85rem;
+    }
+
     .header-tools {
         display: flex;
         flex-direction: column;
@@ -5660,6 +5847,13 @@ blockquote::before {
     padding: 0;
 }
 
+/* Force five products per row on desktop */
+@media (min-width: 1200px) {
+    .woocommerce ul.products {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
 .woocommerce ul.products li.product {
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -5712,7 +5906,7 @@ blockquote::before {
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
     font-size: 1.1em;
     font-weight: 600;
-    margin: 15px 15px 10px;
+    margin: 0 auto;
     min-height: 50px;
     color: var(--primary-color);
     display: flex;
@@ -5731,7 +5925,7 @@ blockquote::before {
     font-size: 1.2em;
     font-weight: 700;
     color: var(--primary-color);
-    margin: auto 15px 15px;
+    margin: 0 auto;
     display: block;
 }
 
@@ -5750,7 +5944,7 @@ blockquote::before {
 .woocommerce ul.products li.product .button {
     display: inline-block;
     width: auto;
-    margin: 0 15px 20px;
+    margin: 0 15px;
     text-align: center;
     padding: 12px 25px;
     background-color: var(--primary-color);

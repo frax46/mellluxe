@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initCartPage();
     initGetInTouchScroll();
     initMobileSearch();
+    initCategoriesMenu();
 
     function initGetInTouchScroll() {
         const getInTouchButton = document.querySelector('.btn-secondary-about');
@@ -64,9 +65,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 closeMobileMenu();
             });
 
-            // Close menu when clicking on menu links
+            // Close menu when clicking on menu links (except Categories)
             menuLinks.forEach(link => {
-                link.addEventListener('click', function () {
+                link.addEventListener('click', function (e) {
+                    // Don't close menu if clicking on Categories link
+                    if (this.classList.contains('categories-toggle') || this.closest('.categories-menu')) {
+                        return; // Let the categories menu handle its own behavior
+                    }
                     closeMobileMenu();
                 });
             });
@@ -1391,4 +1396,138 @@ function initMobileSearch() {
             });
         });
     }
+}
+
+/**
+ * Categories Menu Functionality
+ */
+function initCategoriesMenu() {
+    const categoriesMenu = document.querySelector('.categories-menu');
+    const categoriesToggle = document.querySelector('.categories-toggle');
+    const categoriesDropdown = document.querySelector('.categories-dropdown');
+
+    if (!categoriesMenu || !categoriesToggle || !categoriesDropdown) {
+        return;
+    }
+
+    // Check if we're on mobile
+    function isMobile() {
+        return window.innerWidth <= 991;
+    }
+
+    // Toggle categories dropdown
+    function toggleCategories() {
+        const isActive = categoriesMenu.classList.contains('active');
+        
+        if (isActive) {
+            categoriesMenu.classList.remove('active');
+        } else {
+            categoriesMenu.classList.add('active');
+        }
+    }
+
+    // Handle click events
+    categoriesToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent event bubbling to parent menu
+        toggleCategories();
+    });
+
+    // Desktop hover behavior
+    function setupDesktopBehavior() {
+        if (!isMobile()) {
+            categoriesMenu.addEventListener('mouseenter', function() {
+                categoriesDropdown.style.opacity = '1';
+                categoriesDropdown.style.visibility = 'visible';
+            });
+
+            categoriesMenu.addEventListener('mouseleave', function() {
+                categoriesDropdown.style.opacity = '0';
+                categoriesDropdown.style.visibility = 'hidden';
+            });
+        }
+    }
+
+    // Setup initial behavior
+    setupDesktopBehavior();
+
+    // Handle keyboard navigation
+    categoriesToggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleCategories();
+        }
+        
+        if (e.key === 'Escape') {
+            categoriesMenu.classList.remove('active');
+            if (!isMobile()) {
+                categoriesDropdown.style.opacity = '0';
+                categoriesDropdown.style.visibility = 'hidden';
+            }
+        }
+    });
+
+    // Close dropdown when clicking outside (desktop only)
+    if (!isMobile()) {
+        document.addEventListener('click', function(e) {
+            if (!categoriesMenu.contains(e.target)) {
+                categoriesDropdown.style.opacity = '0';
+                categoriesDropdown.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        // Reset categories state when switching between mobile/desktop
+        categoriesMenu.classList.remove('active');
+        
+        if (!isMobile()) {
+            // Desktop mode - reset dropdown styles
+            categoriesDropdown.style.opacity = '0';
+            categoriesDropdown.style.visibility = 'hidden';
+            setupDesktopBehavior();
+        } else {
+            // Mobile mode - remove desktop hover listeners
+            categoriesMenu.removeEventListener('mouseenter', arguments.callee);
+            categoriesMenu.removeEventListener('mouseleave', arguments.callee);
+        }
+    });
+
+    // Add smooth transitions to category links (desktop only)
+    if (!isMobile()) {
+        const categoryLinks = categoriesDropdown.querySelectorAll('.category-link');
+        categoryLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    }
+
+    // Close mobile menu when category link is clicked (mobile only)
+    const categoryLinks = categoriesDropdown.querySelectorAll('.category-link');
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (isMobile()) {
+                // Close the mobile menu when a category is selected
+                const mobileMenu = document.querySelector('.main-navigation');
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    // Call the closeMobileMenu function if it exists
+                    if (typeof closeMobileMenu === 'function') {
+                        closeMobileMenu();
+                    } else {
+                        // Fallback: manually close the menu
+                        mobileMenu.classList.remove('active');
+                        document.querySelector('.mobile-menu-toggle').classList.remove('active');
+                        document.querySelector('.mobile-menu-overlay').classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+            }
+        });
+    });
 } 

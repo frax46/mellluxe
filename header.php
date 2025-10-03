@@ -49,7 +49,41 @@
                     <div class="links">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li><a href="/shop">Shop</a></li>
+                            <?php if (class_exists('WooCommerce')): ?>
+                            <li class="menu-item-has-children categories-menu">
+                                <a href="#" class="categories-toggle">Shop</a>
+                                <div class="categories-dropdown">
+                                    <div class="categories-content">
+                                        <?php
+                                        $product_categories = get_terms(array(
+                                            'taxonomy' => 'product_cat',
+                                            'hide_empty' => true,
+                                            'orderby' => 'name',
+                                            'order' => 'ASC'
+                                        ));
+                                        
+                                        if (!empty($product_categories) && !is_wp_error($product_categories)) {
+                                            echo '<div class="categories-grid">';
+                                            foreach ($product_categories as $category) {
+                                                $category_link = get_term_link($category);
+                                                $category_count = $category->count;
+                                                echo '<div class="category-item">';
+                                                echo '<a href="' . esc_url($category_link) . '" class="category-link">';
+                                                echo '<span class="category-name">' . esc_html($category->name) . '</span>';
+                                                echo '<span class="category-count">(' . $category_count . ')</span>';
+                                                echo '</a>';
+                                                echo '</div>';
+                                            }
+                                            echo '</div>';
+                                        } else {
+                                            echo '<div class="no-categories">No categories available</div>';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php endif; ?>
+                            <li><a href="/gift-card">Gift Card</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
                             <li>

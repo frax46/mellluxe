@@ -168,43 +168,7 @@ get_header(); ?>
 
     <!-- Trust Section -->
     <section class="trust-section">
-        <div class="container">
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor"
-                                stroke-width="2" />
-                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" />
-                        </svg>
-                    </div>
-                    <h3>100% Natural</h3>
-                    <p>Vegan & Cruelty-Free</p>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 9v11a2 2 0 01-2 2H6a2 2 0 01-2-2V9" stroke="currentColor" stroke-width="2" />
-                            <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" stroke="currentColor" stroke-width="2" />
-                        </svg>
-                    </div>
-                    <h3>Handmade in UK</h3>
-                    <p>Crafted with Love</p>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" />
-                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" />
-                        </svg>
-                    </div>
-                    <h3>Free Delivery</h3>
-                    <p>On UK Orders</p>
-                </div>
-            </div>
-        </div>
+        <img src="<?php echo get_template_directory_uri(); ?>/images/System Images/strips.png" alt="">
     </section>
 
 </div>
@@ -335,7 +299,7 @@ get_header(); ?>
 
     /* Container */
     .container {
-        max-width: 1200px;
+        max-width: 1600px;
         margin: 0 auto;
         padding: 0 20px;
     }
@@ -603,7 +567,7 @@ get_header(); ?>
     }
 
     .woocommerce .product .product-content {
-        padding: 24px;
+        
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -764,9 +728,13 @@ get_header(); ?>
 
     /* Trust Section */
     .trust-section {
-        padding: 60px 0;
-        background: var(--primary-color);
-        color: white;
+        
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
     }
 
     .trust-grid {
