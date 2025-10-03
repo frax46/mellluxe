@@ -25,11 +25,21 @@ $our_best_image_2 = function_exists('get_field') ? esc_html(get_field('our_best_
 $our_best_image_3 = function_exists('get_field') ? esc_html(get_field('our_best_image_3')) : '';
 $our_best_image_4 = function_exists('get_field') ? esc_html(get_field('our_best_image_4')) : '';
 $our_best_image_5 = function_exists('get_field') ? esc_html(get_field('our_best_image_5')) : '';
+$our_best_image_6 = function_exists('get_field') ? esc_html(get_field('our_best_image_6')) : '';
+$our_best_image_7 = function_exists('get_field') ? esc_html(get_field('our_best_image_7')) : '';
+$our_best_image_8 = function_exists('get_field') ? esc_html(get_field('our_best_image_8')) : '';
+$our_best_image_9 = function_exists('get_field') ? esc_html(get_field('our_best_image_9')) : '';
+$our_best_image_10 = function_exists('get_field') ? esc_html(get_field('our_best_image_10')) : '';
 $our_best_image_1_link = function_exists('get_field') ? esc_html(get_field('our_best_image_1_link')) : '';
 $our_best_image_2_link = function_exists('get_field') ? esc_html(get_field('our_best_image_2_link')) : '';
 $our_best_image_3_link = function_exists('get_field') ? esc_html(get_field('our_best_image_3_link')) : '';
 $our_best_image_4_link = function_exists('get_field') ? esc_html(get_field('our_best_image_4_link')) : '';
 $our_best_image_5_link = function_exists('get_field') ? esc_html(get_field('our_best_image_5_link')) : '';
+$our_best_image_6_link = function_exists('get_field') ? esc_html(get_field('our_best_image_6_link')) : '';
+$our_best_image_7_link = function_exists('get_field') ? esc_html(get_field('our_best_image_7_link')) : '';
+$our_best_image_8_link = function_exists('get_field') ? esc_html(get_field('our_best_image_8_link')) : '';
+$our_best_image_9_link = function_exists('get_field') ? esc_html(get_field('our_best_image_9_link')) : '';
+$our_best_image_10_link = function_exists('get_field') ? esc_html(get_field('our_best_image_10_link')) : '';
 $hero_image2_link = function_exists('get_field') ? esc_html(get_field('hero_image2_link')) : '';
 $home_image_1_left_link = function_exists('get_field') ? esc_html(get_field('home_image_1_left_link')) : '';
 $home_image_1_right_link = function_exists('get_field') ? esc_html(get_field('home_image_1_right_link')) : '';
@@ -280,6 +290,36 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                             <img src="<?php echo $our_best_image_5; ?>" alt="Facial Oil">
                             <a href="<?php echo $our_best_image_5_link; ?>" class="thumbnail-link"></a>
                         </div>
+                        <?php if (!empty($our_best_image_6)) : ?>
+                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_6; ?>">
+                            <img src="<?php echo $our_best_image_6; ?>" alt="Best Pick 6">
+                            <a href="<?php echo $our_best_image_6_link; ?>" class="thumbnail-link"></a>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($our_best_image_7)) : ?>
+                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_7; ?>">
+                            <img src="<?php echo $our_best_image_7; ?>" alt="Best Pick 7">
+                            <a href="<?php echo $our_best_image_7_link; ?>" class="thumbnail-link"></a>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($our_best_image_8)) : ?>
+                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_8; ?>">
+                            <img src="<?php echo $our_best_image_8; ?>" alt="Best Pick 8">
+                            <a href="<?php echo $our_best_image_8_link; ?>" class="thumbnail-link"></a>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($our_best_image_9)) : ?>
+                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_9; ?>">
+                            <img src="<?php echo $our_best_image_9; ?>" alt="Best Pick 9">
+                            <a href="<?php echo $our_best_image_9_link; ?>" class="thumbnail-link"></a>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($our_best_image_10)) : ?>
+                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_10; ?>">
+                            <img src="<?php echo $our_best_image_10; ?>" alt="Best Pick 10">
+                            <a href="<?php echo $our_best_image_10_link; ?>" class="thumbnail-link"></a>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
