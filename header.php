@@ -65,6 +65,10 @@
                                         if (!empty($product_categories) && !is_wp_error($product_categories)) {
                                             echo '<div class="categories-grid">';
                                             foreach ($product_categories as $category) {
+                                                // Omit specific categories from the dropdown
+                                                if (isset($category->slug) && $category->slug === 'gift-card') {
+                                                    continue;
+                                                }
                                                 $category_link = get_term_link($category);
                                                 $category_count = $category->count;
                                                 echo '<div class="category-item">';
@@ -83,7 +87,7 @@
                                 </div>
                             </li>
                             <?php endif; ?>
-                            <li><a href="/gift-card">Gift Card</a></li>
+                            <li><a href="/gift-card">Gift Sets</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
                             <li>
