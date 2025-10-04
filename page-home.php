@@ -329,14 +329,8 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                 <!-- "Our" Text -->
                 <div class="our-text">
                     <h2>Our</h2>
-                </div>
-
-                <!-- "Best" Container with Yellow Accent -->
-                <div class="best-container-box">
                     <div class="best-text">Best</div>
-                    <div class="yellow-accent"></div>
                 </div>
-
                 <!-- Description Container -->
                 <div class="best-description">
                     <p><?php echo $our_best_text; ?></p>

@@ -102,47 +102,101 @@ get_header(); ?>
         </div>
     </section>
 
-    <!-- Environmental Section -->
-    <section class="environmental-section">
-        <div class="environmental-overlay">
-            <div class="container">
-                <div class="environmental-content">
-                    <h2>We Only Have One Home</h2>
-                    <div class="environmental-text">
-                        <p>In the beauty industry, 'vegan' signifies products free from animal-derived ingredients and
-                            not tested on animals. Achieving high-quality vegan products is challenging due to limited
-                            ingredient options, formulation difficulties, and strict certification standards. Brands
-                            must invest in research and development to find effective plant-based alternatives and
-                            ensure sustainable, ethical sourcing. Transparent practices and rigorous testing are crucial
-                            to maintaining quality and consumer trust. Despite these challenges, creating luxurious and
-                            effective vegan skincare products is achievable with dedication to innovation and ethical
-                            standards.</p>
+    <!-- Values Slider Section -->
+    <section class="values-slider-section">
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <button class="slider-nav slider-nav-prev" aria-label="Previous slide">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <div class="slider-track">
+                    <!-- Slide 1: Environmental Impact -->
+                    <div class="slide slide-environment">
+                        <div class="slide-overlay">
+                            <div class="container">
+                                <div class="slide-content">
+                                    <h2>We Can Make a Difference</h2>
+                                    <div class="slide-text">
+                                        <p>The beauty industry has a significant negative impact on nature, with millions of tons
+                                            of plastic waste and harmful chemicals polluting our environment every year.
+                                            Achieving fully plastic-free products is challenging due to higher production costs and
+                                            complex manufacturing processes. Despite these challenges, our brand is dedicated to
+                                            sustainability, offering recyclable, plastic-free products that leave no harmful footprint.
+                                            By choosing us, you support eco-friendly practices that reduce pollution and protect
+                                            the planet. Join us in making a positive impact and preserving our extraordinary
+                                            Mother Nature.</p>
+                                    </div>
+                                    <div class="contact-us-btn">
+                                        <span>Contact Us</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Community Section -->
-    <section class="community-section">
-        <div class="container">
-            <div class="community-content">
-                <div class="community-text-section">
-                    <h2>By Finding Ways to Work Together</h2>
-                    <div class="community-text">
-                        <p>In the beauty industry, ensuring products are free from modern slavery and child labor
-                            involves strict ethical sourcing and transparent supply chains. This commitment requires
-                            rigorous vetting of suppliers, frequent audits, and adherence to fair trade practices. By
-                            prioritizing human rights and ethical labor standards, Mell Luxe's brand differentiates,
-                            ensuring that every product is made in the UK with integrity and respect for workers'
-                            dignity. Choose our products to support a beauty industry that champions ethical practices
-                            and stands firmly against exploitation and abuse.</p>
+                    <!-- Slide 2: Vegan Products -->
+                    <div class="slide slide-vegan">
+                        <div class="slide-overlay">
+                            <div class="container">
+                                <div class="slide-content">
+                                    <h2>We Only Have One Home</h2>
+                                    <div class="slide-text">
+                                        <p>In the beauty industry, 'vegan' signifies products free from animal-derived ingredients and
+                                            not tested on animals. Achieving high-quality vegan products is challenging due to limited
+                                            ingredient options, formulation difficulties, and strict certification standards. Brands
+                                            must invest in research and development to find effective plant-based alternatives and
+                                            ensure sustainable, ethical sourcing. Transparent practices and rigorous testing are crucial
+                                            to maintaining quality and consumer trust. Despite these challenges, creating luxurious and
+                                            effective vegan skincare products is achievable with dedication to innovation and ethical
+                                            standards.</p>
+                                    </div>
+                                    <div class="contact-us-btn">
+                                        <span>Contact Us</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Ethical Practices -->
+                    <div class="slide slide-ethical">
+                        <div class="slide-overlay">
+                            <div class="container">
+                                <div class="slide-content">
+                                    <h2>By Finding Ways to Work Together</h2>
+                                    <div class="slide-text">
+                                        <p>In the beauty industry, ensuring products are free from modern slavery and child labor
+                                            involves strict ethical sourcing and transparent supply chains. This commitment requires
+                                            rigorous vetting of suppliers, frequent audits, and adherence to fair trade practices. By
+                                            prioritizing human rights and ethical labor standards, Mell Luxe's brand differentiates,
+                                            ensuring that every product is made in the UK with integrity and respect for workers'
+                                            dignity. Choose our products to support a beauty industry that champions ethical practices
+                                            and stands firmly against exploitation and abuse.</p>
+                                    </div>
+                                    <div class="contact-us-btn">
+                                        <span>Contact Us</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="community-image-section">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/System Images/IMG_7926.jpeg"
-                        alt="Community working together" class="community-img">
-                </div>
+
+                <button class="slider-nav slider-nav-next" aria-label="Next slide">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Slider Indicators -->
+            <div class="slider-indicators">
+                <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
+                <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
+                <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
             </div>
         </div>
     </section>
@@ -166,6 +220,7 @@ get_header(); ?>
 </div>
 
 <style>
+
     .about-page-container {
         margin-top: 100px;
     }
@@ -385,49 +440,91 @@ get_header(); ?>
         transform: rotate(0deg) scale(1.02);
     }
 
-    /* Environmental Section */
-    .environmental-section {
-        min-height: 60vh;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%),
-            url('images/System Images/strips.png');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+    /* Values Slider Section */
+    .values-slider-section {
         position: relative;
+        min-height: 70vh;
+        overflow: hidden;
+    }
+
+    .slider-container {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        min-height: 500px;
+    }
+
+    .slider-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
         display: flex;
         align-items: center;
     }
 
-    .environmental-overlay {
+    .slider-track {
+        position: relative;
         width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .slide.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    .slide-overlay {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
         padding: 80px 0;
     }
 
-    .environmental-content {
+    .slide-content {
         text-align: center;
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto;
+        padding: 0 20px;
     }
 
-    .environmental-content h2 {
+    .slide-content h2 {
         font-size: 4rem;
         color: white;
         margin-bottom: 40px;
         font-weight: 300;
         letter-spacing: 2px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        line-height: 1.2;
     }
 
-    .environmental-text {
+    .slide-text {
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(15px);
         padding: 40px;
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        margin-bottom: 30px;
     }
 
-    .environmental-text p {
+    .slide-text p {
         font-size: 1.1rem;
         line-height: 1.8;
         color: white;
@@ -435,46 +532,97 @@ get_header(); ?>
         margin: 0;
     }
 
-    /* Community Section */
-    .community-section {
-        padding: 80px 0;
-        background: linear-gradient(135deg, rgba(253, 226, 141, 0.05) 0%, white 100%);
-    }
-
-    .community-content {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 60px;
-        align-items: center;
-    }
-
-    .community-text-section h2 {
-        font-size: 3rem;
-        color: var(--primary-color);
-        margin-bottom: 30px;
-        font-weight: 300;
-        line-height: 1.2;
-    }
-
-    .community-text p {
+    .contact-us-btn {
+        background: rgba(253, 226, 141, 0.2);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(253, 226, 141, 0.5);
+        border-radius: 50px;
+        padding: 15px 40px;
+        color: #FDE28D;
+        font-weight: 600;
         font-size: 1.1rem;
-        line-height: 1.8;
-        color: #333333;
-        text-align: justify;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-block;
     }
 
-    .community-img {
-        width: 100%;
-        height: 500px;
-        object-fit: cover;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-        transform: rotate(2deg);
-        transition: transform 0.3s ease;
+    .contact-us-btn:hover {
+        background: rgba(253, 226, 141, 0.3);
+        border-color: #FDE28D;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(253, 226, 141, 0.3);
     }
 
-    .community-img:hover {
-        transform: rotate(0deg) scale(1.02);
+    /* Navigation Arrows */
+    .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .slider-nav:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .slider-nav-prev {
+        left: 20px;
+    }
+
+    .slider-nav-next {
+        right: 20px;
+    }
+
+    .slider-nav svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Indicators */
+    .slider-indicators {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        z-index: 10;
+    }
+
+    .indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+        background: #FDE28D;
+        border-color: #FDE28D;
+        box-shadow: 0 0 10px rgba(253, 226, 141, 0.5);
+    }
+
+    .indicator:hover {
+        border-color: rgba(255, 255, 255, 0.8);
+        transform: scale(1.2);
     }
 
     /* Call to Action Section */
@@ -552,25 +700,19 @@ get_header(); ?>
     @media (max-width: 1200px) {
 
         .cause-content,
-        .brand-values-content,
-        .community-content {
+        .brand-values-content {
             gap: 40px;
         }
 
-        .environmental-content h2 {
+        .slide-content h2 {
             font-size: 3rem;
-        }
-
-        .community-text-section h2 {
-            font-size: 2.5rem;
         }
     }
 
     @media (max-width: 992px) {
 
         .cause-content,
-        .brand-values-content,
-        .community-content {
+        .brand-values-content {
             grid-template-columns: 1fr;
             gap: 40px;
             text-align: center;
@@ -580,12 +722,8 @@ get_header(); ?>
             font-size: 2rem;
         }
 
-        .environmental-content h2 {
+        .slide-content h2 {
             font-size: 2.5rem;
-        }
-
-        .community-text-section h2 {
-            font-size: 2rem;
         }
 
         .about-cta-content h2 {
@@ -600,13 +738,28 @@ get_header(); ?>
 
         .about-cause-section,
         .brand-values-section,
-        .community-section,
         .about-cta-section {
             padding: 50px 0;
         }
 
-        .cause-text-box,
-        .environmental-text {
+        .slider-container {
+            height: 50vh;
+            min-height: 400px;
+        }
+
+        .slide-overlay {
+            padding: 50px 0;
+        }
+
+        .slide-content h2 {
+            font-size: 2rem;
+        }
+
+        .slide-text {
+            padding: 30px 20px;
+        }
+
+        .cause-text-box {
             padding: 30px 20px;
         }
 
@@ -616,6 +769,19 @@ get_header(); ?>
 
         .value-item {
             font-size: 1rem;
+        }
+
+        .slider-nav {
+            width: 40px;
+            height: 40px;
+        }
+
+        .slider-nav-prev {
+            left: 10px;
+        }
+
+        .slider-nav-next {
+            right: 10px;
         }
 
         .about-cta-buttons {
@@ -644,16 +810,25 @@ get_header(); ?>
             height: 250px;
         }
 
-        .community-img {
-            height: 300px;
-        }
-
-        .environmental-section {
+        .slide {
             background-attachment: scroll;
         }
 
-        .environmental-content h2 {
-            font-size: 2rem;
+        .slide-content h2 {
+            font-size: 1.8rem;
+        }
+
+        .slide-text {
+            padding: 20px 15px;
+        }
+
+        .slide-text p {
+            font-size: 1rem;
+        }
+
+        .contact-us-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
         }
 
         .values-items {
@@ -666,5 +841,109 @@ get_header(); ?>
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sliderTrack = document.querySelector('.slider-track');
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.querySelector('.slider-nav-prev');
+    const nextBtn = document.querySelector('.slider-nav-next');
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    
+    // Initialize slider
+    function initSlider() {
+        slides[currentSlide].classList.add('active');
+        updateIndicators();
+    }
+    
+    // Update indicators
+    function updateIndicators() {
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentSlide);
+        });
+    }
+    
+    // Go to specific slide
+    function goToSlide(slideIndex) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = slideIndex;
+        slides[currentSlide].classList.add('active');
+        updateIndicators();
+    }
+    
+    // Next slide
+    function nextSlide() {
+        const next = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+        goToSlide(next);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        const prev = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
+        goToSlide(prev);
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    // Indicator click events
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Auto-slide functionality (optional)
+    let autoSlideInterval;
+    
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    }
+    
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+    
+    // Start auto-slide
+    startAutoSlide();
+    
+    // Pause auto-slide on hover
+    sliderTrack.addEventListener('mouseenter', stopAutoSlide);
+    sliderTrack.addEventListener('mouseleave', startAutoSlide);
+    
+    // Pause auto-slide when buttons are hovered
+    prevBtn.addEventListener('mouseenter', stopAutoSlide);
+    nextBtn.addEventListener('mouseenter', stopAutoSlide);
+    prevBtn.addEventListener('mouseleave', startAutoSlide);
+    nextBtn.addEventListener('mouseleave', startAutoSlide);
+    
+    // Set background images dynamically
+    function setBackgroundImages() {
+        const environmentSlide = document.querySelector('.slide-environment');
+        const veganSlide = document.querySelector('.slide-vegan');
+        const ethicalSlide = document.querySelector('.slide-ethical');
+        
+        if (environmentSlide) {
+            environmentSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/System Images/IMG_0972_edited_edited.jpg') center/cover no-repeat fixed`;
+        }
+        
+        if (veganSlide) {
+            veganSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/assets/pattern.png') center/cover no-repeat fixed`;
+        }
+        
+        if (ethicalSlide) {
+            ethicalSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/System Images/PXL_20240329_121220294.MP.jpg') center/cover no-repeat fixed`;
+        }
+    }
+    
+    // Set background images on page load
+    setBackgroundImages();
+
+    // Initialize the slider
+    initSlider();
+});
+</script>
 
 <?php get_footer(); ?>
