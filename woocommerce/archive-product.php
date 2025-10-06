@@ -108,6 +108,9 @@ get_header(); ?>
 
                                 if (!empty($product_categories)) {
                                     foreach ($product_categories as $category) {
+                                        if (isset($category->slug) && $category->slug === 'uncategorized') {
+                                            continue;
+                                        }
                                         $selected = (is_product_category() && $category->term_id == get_queried_object_id()) ? 'selected' : '';
                                         echo '<option value="' . esc_attr($category->slug) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
                                     }
@@ -310,6 +313,12 @@ get_header(); ?>
         padding: 60px 0;
         background: linear-gradient(135deg, rgba(253, 226, 141, 0.08) 0%, rgba(253, 226, 141, 0.03) 100%);
     }
+    .hero-text{
+        text-align: center;
+        p{
+            text-align: center;
+        }
+    }
 
     .hero-content {
         display: grid;
@@ -334,9 +343,11 @@ get_header(); ?>
     }
 
     .hero-categories {
+        
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
+        display: none;
     }
 
     .category-pill {

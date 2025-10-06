@@ -66,7 +66,7 @@
                                             echo '<div class="categories-grid">';
                                             foreach ($product_categories as $category) {
                                                 // Omit specific categories from the dropdown
-                                                if (isset($category->slug) && $category->slug === 'gift-card') {
+                                                if (isset($category->slug) && ($category->slug === 'gift-card' || $category->slug === 'uncategorized')) {
                                                     continue;
                                                 }
                                                 $category_link = get_term_link($category);
