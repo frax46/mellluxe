@@ -7563,7 +7563,6 @@ blockquote::before {
     margin: 0 auto;
     padding: 0 1rem;
     margin-top: 80px; /* Account for fixed header */
-    border: 5px solid red !important; /* Debug border */
 }
 
 /* Hide duplicate page title */
@@ -7613,6 +7612,17 @@ blockquote::before {
     font-weight: 400;
     margin: 0;
     opacity: 0.9;
+}
+
+.woocommerce-Address{
+    h2{
+        color:black;
+    }
+}
+.account-content-wrapper{
+    p,address{
+        color:black;
+    }
 }
 
 /* Layout Grid */

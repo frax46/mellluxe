@@ -29,6 +29,23 @@ get_header(); ?>
     border-radius: 12px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(37, 23, 70, 0.3);
+}
+
+.my-account-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.my-account-hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .my-account-title {
@@ -41,11 +58,12 @@ get_header(); ?>
 }
 
 .my-account-subtitle {
-    color: #dcd1f3;
+    color: #ffffff !important;
     font-size: 1.1rem;
-    font-weight: 400;
+    font-weight: 500;
     margin: 0;
-    opacity: 0.9;
+    opacity: 1;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .my-account-layout {
