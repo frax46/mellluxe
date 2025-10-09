@@ -165,9 +165,11 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
         <div class="container">
             <div class="box1" style="grid-area: box1">
                 <div class="text-container">
-                    <h2>Bath & Body</h2>
-                    <p>Indulge in moments of pure relaxation. Our bath salts and body oils transform ordinary evenings
-                        into spa-like experiences, leaving your skin silky smooth and your mind completely at ease.</p>
+                    <h2>Rituals for Mind, Body & Soul</h2>
+                    <p>At Mell Luxe, self-care isn’t just a routine—it’s a sacred pause. Our bath salts, body oils and
+                        scrubs are infused with natural botanicals and calming aromatherapy to relax your mind, nourish
+                        your skin and uplift your spirit. Each blend transforms ordinary moments into luxurious rituals
+                        of peace, grounding and renewal.</p>
 
                 </div>
             </div>
@@ -175,14 +177,15 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
 
             </div>
             <div class="box3" style="grid-area: box3">
-                <h2>Clinically Proven</h2>
-                <p>Nature Meets Luxury</p>
+                <h2>Where Nature Becomes Science</h2>
             </div>
             <div class="box4" style="grid-area: box4">
                 <div class="text-container">
 
-                    <p>Your skin tells a story, and we're here to help you write the best chapters. From gentle
-                        cleansers to powerful serums, each product works in harmony to reveal your most radiant self.
+                    <p>True beauty is harmony. Our serums and facial oils unite plant-powered ingredients with
+                        clinically tested formulations to deliver visible, lasting results. Each product works in rhythm
+                        with your skin’s natural balance restoring hydration, boosting radiance and revealing a
+                        healthier, more confident glow with every application.
                     </p>
 
                 </div>
@@ -290,35 +293,35 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                             <img src="<?php echo $our_best_image_5; ?>" alt="Facial Oil">
                             <a href="<?php echo $our_best_image_5_link; ?>" class="thumbnail-link"></a>
                         </div>
-                        <?php if (!empty($our_best_image_6)) : ?>
-                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_6; ?>">
-                            <img src="<?php echo $our_best_image_6; ?>" alt="Best Pick 6">
-                            <a href="<?php echo $our_best_image_6_link; ?>" class="thumbnail-link"></a>
-                        </div>
+                        <?php if (!empty($our_best_image_6)): ?>
+                            <div class="thumbnail-item" data-img="<?php echo $our_best_image_6; ?>">
+                                <img src="<?php echo $our_best_image_6; ?>" alt="Best Pick 6">
+                                <a href="<?php echo $our_best_image_6_link; ?>" class="thumbnail-link"></a>
+                            </div>
                         <?php endif; ?>
-                        <?php if (!empty($our_best_image_7)) : ?>
-                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_7; ?>">
-                            <img src="<?php echo $our_best_image_7; ?>" alt="Best Pick 7">
-                            <a href="<?php echo $our_best_image_7_link; ?>" class="thumbnail-link"></a>
-                        </div>
+                        <?php if (!empty($our_best_image_7)): ?>
+                            <div class="thumbnail-item" data-img="<?php echo $our_best_image_7; ?>">
+                                <img src="<?php echo $our_best_image_7; ?>" alt="Best Pick 7">
+                                <a href="<?php echo $our_best_image_7_link; ?>" class="thumbnail-link"></a>
+                            </div>
                         <?php endif; ?>
-                        <?php if (!empty($our_best_image_8)) : ?>
-                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_8; ?>">
-                            <img src="<?php echo $our_best_image_8; ?>" alt="Best Pick 8">
-                            <a href="<?php echo $our_best_image_8_link; ?>" class="thumbnail-link"></a>
-                        </div>
+                        <?php if (!empty($our_best_image_8)): ?>
+                            <div class="thumbnail-item" data-img="<?php echo $our_best_image_8; ?>">
+                                <img src="<?php echo $our_best_image_8; ?>" alt="Best Pick 8">
+                                <a href="<?php echo $our_best_image_8_link; ?>" class="thumbnail-link"></a>
+                            </div>
                         <?php endif; ?>
-                        <?php if (!empty($our_best_image_9)) : ?>
-                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_9; ?>">
-                            <img src="<?php echo $our_best_image_9; ?>" alt="Best Pick 9">
-                            <a href="<?php echo $our_best_image_9_link; ?>" class="thumbnail-link"></a>
-                        </div>
+                        <?php if (!empty($our_best_image_9)): ?>
+                            <div class="thumbnail-item" data-img="<?php echo $our_best_image_9; ?>">
+                                <img src="<?php echo $our_best_image_9; ?>" alt="Best Pick 9">
+                                <a href="<?php echo $our_best_image_9_link; ?>" class="thumbnail-link"></a>
+                            </div>
                         <?php endif; ?>
-                        <?php if (!empty($our_best_image_10)) : ?>
-                        <div class="thumbnail-item" data-img="<?php echo $our_best_image_10; ?>">
-                            <img src="<?php echo $our_best_image_10; ?>" alt="Best Pick 10">
-                            <a href="<?php echo $our_best_image_10_link; ?>" class="thumbnail-link"></a>
-                        </div>
+                        <?php if (!empty($our_best_image_10)): ?>
+                            <div class="thumbnail-item" data-img="<?php echo $our_best_image_10; ?>">
+                                <img src="<?php echo $our_best_image_10; ?>" alt="Best Pick 10">
+                                <a href="<?php echo $our_best_image_10_link; ?>" class="thumbnail-link"></a>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
