@@ -3413,8 +3413,23 @@ blockquote::before {
     display: none
 }
 
+.header-profile {  
+    svg {
+        width: 24px;
+        height: 24px;
+        color: var(--secondary-color);
+    }
+    
+}
+
 /* Mobile Navigation Styles */
 @media (max-width: 991px) {
+
+    .header-profile {  
+        display: flex;
+        justify-content: center;
+        
+    }
     .mobile-menu-toggle {
         display: flex;
     }
@@ -3889,7 +3904,7 @@ blockquote::before {
 
     .header-container nav {
         display: flex;
-        width: 40%;
+        width: 100%;
         justify-content: space-between;
         align-items: center;
         height: 100%;
