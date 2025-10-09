@@ -7552,3 +7552,467 @@ blockquote::before {
         padding: 1rem 1.5rem;
     }
 }
+
+/* ========================================
+   MY ACCOUNT PAGE STYLES - MODERN FLAT DESIGN
+   ======================================== */
+
+/* My Account Page Container */
+.my-account-page-container {
+    max-width: var(--max-width, 1400px);
+    margin: 0 auto;
+    padding: 0 1rem;
+    margin-top: 80px; /* Account for fixed header */
+    border: 5px solid red !important; /* Debug border */
+}
+
+/* Hide duplicate page title */
+.my-account-page-container h1:first-of-type {
+    display: none;
+}
+
+/* Hero Section */
+.my-account-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #2a1a4f 100%);
+    padding: 3rem 0 2rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius, 12px);
+    position: relative;
+    overflow: hidden;
+}
+
+.my-account-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(253,226,141,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(253,226,141,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(253,226,141,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(253,226,141,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(253,226,141,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.my-account-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.my-account-title {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.my-account-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Layout Grid */
+.my-account-layout {
+    display: grid !important;
+    grid-template-columns: 280px 1fr !important;
+    gap: 2rem !important;
+    align-items: start !important;
+    margin-top: 2rem !important;
+}
+
+/* Sidebar Navigation */
+.my-account-sidebar {
+    background: #ffffff !important;
+    border-radius: var(--border-radius, 12px) !important;
+    box-shadow: var(--shadow-light) !important;
+    padding: 0 !important;
+    position: sticky !important;
+    top: 100px !important;
+    width: 280px !important;
+    flex-shrink: 0 !important;
+}
+
+.my-account-navigation {
+    padding: 0;
+}
+
+.account-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.account-menu-item {
+    margin: 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.account-menu-item:last-child {
+    border-bottom: none;
+}
+
+.account-menu-item.is-active {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #f5e67a 100%);
+}
+
+.account-menu-item.is-active .account-menu-link {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.account-menu-item.is-active .menu-icon svg {
+    stroke: var(--primary-color);
+}
+
+.account-menu-link {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.account-menu-link:hover {
+    background: rgba(253, 226, 141, 0.1);
+    color: var(--primary-color);
+    transform: translateX(4px);
+}
+
+.account-menu-link:hover .menu-icon svg {
+    stroke: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+.menu-icon {
+    margin-right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.menu-icon svg {
+    stroke: var(--text-secondary, #6B7280);
+    transition: all 0.3s ease;
+}
+
+.menu-label {
+    flex: 1;
+}
+
+/* Main Content Area */
+.my-account-content {
+    background: #ffffff;
+    border-radius: var(--border-radius, 12px);
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+}
+
+.account-content-wrapper {
+    padding: 2rem;
+}
+
+/* Form Styling */
+.woocommerce-account .woocommerce-form,
+.woocommerce-account .woocommerce-form-login,
+.woocommerce-account .woocommerce-form-register {
+    max-width: none;
+}
+
+.woocommerce-account .woocommerce-form-row {
+    margin-bottom: 1.5rem;
+}
+
+.woocommerce-account .woocommerce-form-row label {
+    display: block;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.woocommerce-account .woocommerce-form-row input.input-text,
+.woocommerce-account .woocommerce-form-row textarea,
+.woocommerce-account .woocommerce-form-row select {
+    width: 100%;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+}
+
+.woocommerce-account .woocommerce-form-row input.input-text:focus,
+.woocommerce-account .woocommerce-form-row textarea:focus,
+.woocommerce-account .woocommerce-form-row select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(253, 226, 141, 0.2);
+    outline: none;
+    background: rgba(253, 226, 141, 0.05);
+}
+
+.woocommerce-account .woocommerce-form-row input.input-text::placeholder,
+.woocommerce-account .woocommerce-form-row textarea::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Button Styling */
+.woocommerce-account .woocommerce-form-row .woocommerce-Button,
+.woocommerce-account .woocommerce-form-row .button {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #f5e67a 100%);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.875rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    min-width: 140px;
+}
+
+.woocommerce-account .woocommerce-form-row .woocommerce-Button:hover,
+.woocommerce-account .woocommerce-form-row .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(253, 226, 141, 0.4);
+    background: linear-gradient(135deg, #f5e67a 0%, var(--secondary-color) 100%);
+}
+
+.woocommerce-account .woocommerce-form-row .woocommerce-Button:active,
+.woocommerce-account .woocommerce-form-row .button:active {
+    transform: translateY(0);
+}
+
+/* Section Headings */
+.woocommerce-account h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--secondary-color);
+    display: inline-block;
+}
+
+/* Orders Table */
+.woocommerce-account .woocommerce-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.woocommerce-account .woocommerce-orders-table th {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.woocommerce-account .woocommerce-orders-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f5f5f5;
+    color: var(--primary-color);
+}
+
+.woocommerce-account .woocommerce-orders-table tr:hover td {
+    background: rgba(253, 226, 141, 0.05);
+}
+
+/* Order Status Badges */
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status {
+    text-align: center;
+}
+
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status mark {
+    background: none;
+    color: inherit;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status mark.completed {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status mark.processing {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status mark.pending {
+    background: #f59e0b;
+    color: #ffffff;
+}
+
+/* Address Section */
+.woocommerce-account .woocommerce-address-fields {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.woocommerce-account .woocommerce-address-fields h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+/* Password Change Section */
+.woocommerce-account .woocommerce-form-row--wide {
+    margin-bottom: 2rem;
+}
+
+.woocommerce-account .woocommerce-form-row--wide:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .my-account-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .my-account-sidebar {
+        position: static;
+        order: 2;
+    }
+    
+    .my-account-content {
+        order: 1;
+    }
+    
+    .my-account-title {
+        font-size: 2rem;
+    }
+    
+    .account-content-wrapper {
+        padding: 1.5rem;
+    }
+    
+    .account-menu-link {
+        padding: 1rem 1.25rem;
+    }
+    
+    .woocommerce-account .woocommerce-orders-table {
+        font-size: 0.85rem;
+    }
+    
+    .woocommerce-account .woocommerce-orders-table th,
+    .woocommerce-account .woocommerce-orders-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .my-account-page-container {
+        padding: 0 0.5rem;
+    }
+    
+    .my-account-hero {
+        padding: 2rem 0 1.5rem 0;
+        margin-bottom: 1rem;
+    }
+    
+    .my-account-title {
+        font-size: 1.75rem;
+    }
+    
+    .account-content-wrapper {
+        padding: 1rem;
+    }
+    
+    .woocommerce-account .woocommerce-form-row input.input-text,
+    .woocommerce-account .woocommerce-form-row textarea,
+    .woocommerce-account .woocommerce-form-row select {
+        padding: 0.75rem;
+    }
+}
+
+/* Loading States */
+.woocommerce-account .woocommerce-form-row.loading input,
+.woocommerce-account .woocommerce-form-row.loading textarea,
+.woocommerce-account .woocommerce-form-row.loading select {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.woocommerce-account .woocommerce-form-row.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--secondary-color);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translateY(-50%);
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.woocommerce-account .woocommerce-message,
+.woocommerce-account .woocommerce-error,
+.woocommerce-account .woocommerce-info {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid;
+}
+
+.woocommerce-account .woocommerce-message {
+    background: rgba(16, 185, 129, 0.1);
+    border-left-color: #10b981;
+    color: #065f46;
+}
+
+.woocommerce-account .woocommerce-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #ef4444;
+    color: #991b1b;
+}
+
+.woocommerce-account .woocommerce-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: #3b82f6;
+    color: #1e40af;
+}

@@ -169,6 +169,18 @@ if (class_exists('WooCommerce')) {
     }
     add_filter('loop_shop_per_page', 'mellluxe_products_per_page');
     
+    // Override WooCommerce My Account template
+    function mellluxe_override_my_account_template($template) {
+        if (is_account_page()) {
+            $custom_template = get_template_directory() . '/woocommerce/myaccount/my-account.php';
+            if (file_exists($custom_template)) {
+                return $custom_template;
+            }
+        }
+        return $template;
+    }
+    add_filter('template_include', 'mellluxe_override_my_account_template');
+    
     // Prioritize in-stock products over out-of-stock products on catalog views
     function mellluxe_prioritize_in_stock_products($query) {
         if (is_admin()) return;
