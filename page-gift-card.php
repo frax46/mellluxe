@@ -4,9 +4,34 @@
  * Description: Displays only products in the "gift-card" category.
  */
 
-get_header(); ?>
+get_header();
+
+$promo_title = function_exists('get_field') ? esc_html(get_field('promo_title')) : '';
+$promo_text = function_exists('get_field') ? esc_html(get_field('promo_text')) : '';
+
+?>
 
 <div class="mellluxe-shop-page">
+<?php
+if (!empty($promo_title)): ?>
+    <!-- Special Offer Banner -->
+    <div class="offer-banner" aria-label="Special offer">
+        <div class="offer-marquee">
+            <div class="offer-track">
+                <div class="offer-group">
+                    <?php for ($i = 0; $i < 6; $i++): ?>
+                        <span class="offer-item"><?php echo $promo_title; ?> — <?php echo $promo_text; ?></span>
+                    <?php endfor; ?>
+                </div>
+                <div class="offer-group" aria-hidden="true">
+                    <?php for ($i = 0; $i < 6; $i++): ?>
+                        <span class="offer-item"><?php echo $promo_title; ?> — <?php echo $promo_text; ?></span>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
     <section class="shop-hero">
         <div class="container">
             <div class="hero-content">

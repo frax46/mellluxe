@@ -129,9 +129,7 @@ get_header(); ?>
                                             the planet. Join us in making a positive impact and preserving our extraordinary
                                             Mother Nature.</p>
                                     </div>
-                                    <div class="contact-us-btn">
-                                        <span>Contact Us</span>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -153,9 +151,7 @@ get_header(); ?>
                                             effective vegan skincare products is achievable with dedication to innovation and ethical
                                             standards.</p>
                                     </div>
-                                    <div class="contact-us-btn">
-                                        <span>Contact Us</span>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -176,9 +172,7 @@ get_header(); ?>
                                             dignity. Choose our products to support a beauty industry that champions ethical practices
                                             and stands firmly against exploitation and abuse.</p>
                                     </div>
-                                    <div class="contact-us-btn">
-                                        <span>Contact Us</span>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -209,7 +203,7 @@ get_header(); ?>
                 <p>Join thousands of customers who have chosen luxury with a conscience. Discover our range of 100%
                     natural, vegan, and ethically-made beauty products.</p>
                 <div class="about-cta-buttons">
-                    <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
+                    <a href="<?php echo esc_url(home_url('/product-category/all-products/')); ?>"
                         class="btn-primary-about">Shop Now</a>
                     <a href="#contact" class="btn-secondary-about">Get in Touch</a>
                 </div>

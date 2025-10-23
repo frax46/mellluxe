@@ -1303,7 +1303,7 @@ body {
     display: flex;
     width: max-content;
     will-change: transform;
-    animation: offer-scroll 60s linear infinite;
+    animation: offer-scroll 120s linear infinite;
 }
 
 @media (max-width: 768px) {
@@ -5725,6 +5725,22 @@ blockquote::before {
 
 .wc-proceed-to-checkout .checkout-button:hover {
     opacity: 0.85;
+}
+
+/* Shipping Info */
+.shipping-info {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--secondary-color);
+}
+
+.shipping-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    line-height: 1.4;
 }
 
 /* Empty Cart */

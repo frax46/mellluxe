@@ -62,7 +62,7 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                 <div class="text2">
                     <p><?php echo $hero_text; ?></p>
                 </div>
-                <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="hero-cta-button">
+                <a href="<?php echo  esc_url(home_url('/product-category/all-products/')); ?>" class="hero-cta-button">
                     SHOP <span>→</span>
                 </a>
             </div>
@@ -82,7 +82,7 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                     <p> <?php $hero_text = function_exists('get_field') ? esc_html(get_field('hero_text2')) : '';
                     echo $hero_text; ?>
                     </p>
-                    <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="hero-cta-button">
+                    <a href="<?php echo  esc_url(home_url('/product-category/all-products/')); ?>" class="hero-cta-button">
                         SHOP <span>→</span>
                     </a>
                 </div>
@@ -156,7 +156,7 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
             </div>
             <img src="<?php echo get_template_directory_uri(); ?>/images/assets/hero.png" alt="Mell Luxe"
                 class="hero-image">
-            <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="hero-cta-button">
+            <a href="<?php echo esc_url(home_url('/product-category/all-products/')) ; ?>" class="hero-cta-button">
                 SHOP <span>→</span>
             </a>
         </div>
@@ -487,7 +487,7 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                 <div class="offer-content">
                     <h3><?php echo $promo_title; ?></h3>
                     <p><?php echo $promo_text; ?></p>
-                    <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="offer-cta">
+                    <a href="<?php echo  esc_url(home_url('/product-category/all-products/')); ?>" class="offer-cta">
                         Shop Now <span>→</span>
                     </a>
                 </div>

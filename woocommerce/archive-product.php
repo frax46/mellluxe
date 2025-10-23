@@ -3,13 +3,16 @@
  * WooCommerce template for Mell Luxe theme - Clean Design
  */
 
-get_header(); ?>
+get_header();
+
+$promo_title = function_exists('get_field') ? esc_html(get_field('promo_title')) : '';
+$promo_text = function_exists('get_field') ? esc_html(get_field('promo_text')) : '';
+?>
 
 <div class="mellluxe-shop-page">
 
     <?php
-    $promo_title = function_exists('get_field') ? esc_html(get_field('promo_title')) : '';
-    $promo_text = function_exists('get_field') ? esc_html(get_field('promo_text')) : '';
+
     if (!empty($promo_title)): ?>
         <!-- Special Offer Banner -->
         <div class="offer-banner">
@@ -313,9 +316,11 @@ get_header(); ?>
         padding: 60px 0;
         background: linear-gradient(135deg, rgba(253, 226, 141, 0.08) 0%, rgba(253, 226, 141, 0.03) 100%);
     }
-    .hero-text{
+
+    .hero-text {
         text-align: center;
-        p{
+
+        p {
             text-align: center;
         }
     }
@@ -343,7 +348,7 @@ get_header(); ?>
     }
 
     .hero-categories {
-        
+
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
@@ -578,7 +583,7 @@ get_header(); ?>
     }
 
     .woocommerce .product .product-content {
-        
+
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -739,13 +744,13 @@ get_header(); ?>
 
     /* Trust Section */
     .trust-section {
-        
-        img{
+
+        img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
     }
 
     .trust-grid {

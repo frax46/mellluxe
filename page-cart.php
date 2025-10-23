@@ -141,6 +141,10 @@ get_header(); ?>
                             woocommerce_cart_totals(); 
                             ?>
                             
+                            <div class="shipping-info">
+                                <p><?php esc_html_e( 'Includes £2.99 for standard shipping. (You can choose a different delivery method at checkout.)', 'mellluxe' ); ?></p>
+                            </div>
+                            
                             <div class="wc-proceed-to-checkout">
                                 <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="checkout-button button alt wc-forward">
                                     <?php esc_html_e( 'Proceed to checkout', 'woocommerce' ); ?>
