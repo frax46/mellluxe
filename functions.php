@@ -683,8 +683,8 @@ function mellluxe_cookie_banner_html() {
 				<h3>🍪 We use cookies</h3>
 				<p>We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.</p>
 				<div class="cookie-consent-links">
-					<a href="/privacy-policy" target="_blank">Privacy Policy</a>
-					<a href="/cookie-policy" target="_blank">Cookie Policy</a>
+					<a href="/terms-and-privacy/" target="_blank">Privacy Policy</a>
+					<!-- <a href="/cookie-policy" target="_blank">Cookie Policy</a> -->
 				</div>
 			</div>
 			<div class="cookie-consent-buttons">

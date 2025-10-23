@@ -336,7 +336,7 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                 </div>
                 <!-- Description Container -->
                 <div class="best-description">
-                    <p><?php echo $our_best_text; ?></p>
+                    <p>... Each item is thoughtfully packaged in recyclable, eco-friendly materials, reflecting Mell's commitment to sustainability and the environment. Our formulations harness the power of nature's best, like hyaluronic acid, vegan squalane, blue spirulina, and essential oils, to deliver visible results and unparalleled care.</p>
                 </div>
             </div>
         </div>

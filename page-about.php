@@ -39,11 +39,11 @@ get_header(); ?>
             <div class="cause-content">
                 <div class="cause-images">
                     <div class="cause-image-left">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/IMG_2826.jpeg"
+                        <img src="<?php echo get_template_directory_uri(); ?>/images/System Images/mel-2.jpg"
                             alt="Mell with nature" class="cause-img">
                     </div>
                     <div class="cause-image-right">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/IMG_5103.jpeg"
+                        <img src="<?php echo get_template_directory_uri(); ?>/images/System Images/mel-1.jpeg"
                             alt="Mell by the water" class="cause-img">
                     </div>
                 </div>
@@ -95,7 +95,7 @@ get_header(); ?>
                         about our values below...</p>
                 </div>
                 <div class="brand-values-image">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/IMG_5105.jpeg" alt="Mell in nature"
+                    <img src="<?php echo get_template_directory_uri(); ?>/images/System Images/mel-3.png" alt="Mell in nature"
                         class="values-img">
                 </div>
             </div>
@@ -216,7 +216,7 @@ get_header(); ?>
 <style>
 
     .about-page-container {
-        margin-top: 100px;
+        margin-top: 48px;
     }
 
     /* Offer Banner */
@@ -920,15 +920,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const ethicalSlide = document.querySelector('.slide-ethical');
         
         if (environmentSlide) {
-            environmentSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/System Images/IMG_0972_edited_edited.jpg') center/cover no-repeat fixed`;
+            environmentSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/slides/1.jpeg') center/cover no-repeat fixed`;
         }
         
         if (veganSlide) {
-            veganSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/assets/pattern.png') center/cover no-repeat fixed`;
+            veganSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/slides/2.jpeg') center/cover no-repeat fixed`;
         }
         
         if (ethicalSlide) {
-            ethicalSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/System Images/PXL_20240329_121220294.MP.jpg') center/cover no-repeat fixed`;
+            ethicalSlide.style.background = `linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(37, 23, 70, 0.8) 100%), url('${window.location.origin}/wp-content/themes/mellluxeV2/images/slides/3.jpeg') center/cover no-repeat fixed`;
         }
     }
     

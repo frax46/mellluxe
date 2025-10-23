@@ -64,7 +64,7 @@ if (!empty($promo_title)): ?>
                     // Render WooCommerce products for the specific category using shortcode for consistency with theme styles
                     if (function_exists('woocommerce_shortcode_products')) {
                         // The [products] shortcode supports pagination when paginate="true"
-                        $shortcode = '[products category="gift-card" limit="12" columns="4" paginate="true"]';
+                        $shortcode = '[products category="gift-card" limit="12" columns="4" paginate="true" orderby="meta_value" meta_key="_stock_status" order="ASC"]';
                         echo do_shortcode($shortcode);
                     } else {
                         // Fallback query in case WooCommerce shortcode function is unavailable
@@ -74,6 +74,9 @@ if (!empty($promo_title)): ?>
                             'post_status' => 'publish',
                             'posts_per_page' => 12,
                             'paged' => $paged,
+                            'meta_key' => '_stock_status',
+                            'orderby' => 'meta_value',
+                            'order' => 'ASC',
                             'tax_query' => array(
                                 array(
                                     'taxonomy' => 'product_cat',

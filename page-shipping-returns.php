@@ -1,11 +1,14 @@
 <?php
 /**
- * Template Name: Privacy Policy
+ * Template Name: Shipping and returns
  * 
  * This is a custom template for the Privacy Policy page
  * that users can access from the cookie consent banner.
  */
 
+                            
+                            
+                            
 get_header(); ?>
 
 <div class="privacy-policy-page">

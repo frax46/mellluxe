@@ -1160,6 +1160,7 @@ body {
     }
 
     .info-1 {
+        height: 100%!important;
         .container {
             display: flex;
             flex-direction: column;
@@ -1168,10 +1169,16 @@ body {
             margin: 0;
             max-width: 100%;
         }
+        .box2{
+            height:100px!important;
+        }
     }
 
     .info-2 {
         padding: 0 !important;
+    }
+    .best-content-section{
+        width:100%!important;
     }
 }
 
@@ -8056,4 +8063,11 @@ blockquote::before {
     background: rgba(59, 130, 246, 0.1);
     border-left-color: #3b82f6;
     color: #1e40af;
+}
+
+ @media (min-width: 993px) {
+    #hero,.mellluxe-shop-page, .mellluxe-shop-page, .about-page-container, .blog-page-container{
+        margin-top: 48px!important;
+    }
+    
 }
