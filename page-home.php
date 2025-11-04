@@ -225,19 +225,18 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
                     </div>
 
                     <div class="story-cta">
-                        <div class="cta-box">
-                            <p class="cta-text">EXPERIENCE THE DIFFERENCE</p>
-                            <p class="cta-subtext">YOUR SKIN DESERVES</p>
-                        </div>
+                        <a href="<?php echo esc_url(home_url('/about/')); ?>">
+                            <div class="cta-box">
+                                <p class="cta-text">EXPERIENCE THE DIFFERENCE</p>
+                                <p class="cta-subtext">YOUR SKIN DESERVES</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </section>
         </div>
     </section>
-
-
-
-    <!-- About Section -->
+    
     <section class="snap-section about-section" id="best">
         <div class="best-container">
             <!-- Left Side - Product Slider -->
@@ -507,5 +506,12 @@ $home_image_1_bottom = function_exists('get_field') ? esc_html(get_field('home_i
     </div>
     <div class="btn-bg"></div>
 </button>
+<style>
+    .story-cta{
+        a{
+            text-decoration: none;
+        }
+    }
+</style>
 
 <?php get_footer(); ?>
