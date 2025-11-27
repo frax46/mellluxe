@@ -2474,7 +2474,6 @@ body {
     .best-container {
         padding: 0 20px;
         gap: 40px;
-        flex-direction: column;
     }
 
     .our-text h2 {
@@ -2504,13 +2503,6 @@ body {
 
     .best-content-section {
         gap: 25px;
-        order: -1;
-        width: 100%;
-    }
-    
-    .product-slider-section {
-        width: 100%;
-        order: 1;
     }
 
     .best-description {
@@ -8075,7 +8067,7 @@ blockquote::before {
 
  @media (min-width: 993px) {
     #hero,.mellluxe-shop-page, .mellluxe-shop-page, .about-page-container, .blog-page-container{
-        margin-top: 48px!important;
+        margin-top: 80px!important;
     }
     
 }
