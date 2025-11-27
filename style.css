@@ -5193,6 +5193,223 @@ blockquote::before {
     margin-left: auto;
 }
 
+/* Special Offer Modal */
+.offer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+}
+
+.offer-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.offer-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(37, 23, 70, 0.9);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+}
+
+.offer-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--secondary-color);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.offer-modal.active .offer-modal-content {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.offer-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(253, 226, 141, 0.1);
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.offer-modal-close:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+.offer-modal-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.offer-modal-body {
+    padding: 50px 40px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.offer-modal-icon {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+.offer-modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 0;
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.offer-modal-message {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin: 0;
+    font-family: var(--font-primary);
+    line-height: 1.4;
+}
+
+.offer-modal-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 16px 32px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    margin-top: 10px;
+    border: 2px solid var(--secondary-color);
+    font-family: var(--font-primary);
+}
+
+.offer-modal-button:hover {
+    background: transparent;
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(253, 226, 141, 0.4);
+}
+
+.offer-modal-button span {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.offer-modal-button:hover span {
+    transform: translateX(5px);
+}
+
+/* Responsive styles for offer modal */
+@media (max-width: 768px) {
+    .offer-modal-content {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .offer-modal-body {
+        padding: 40px 30px 30px;
+    }
+
+    .offer-modal-title {
+        font-size: 1.5rem;
+    }
+
+    .offer-modal-message {
+        font-size: 1.2rem;
+    }
+
+    .offer-modal-button {
+        padding: 14px 28px;
+        font-size: 1rem;
+    }
+
+    .offer-modal-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .offer-modal-icon svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .offer-modal-body {
+        padding: 35px 20px 25px;
+        gap: 15px;
+    }
+
+    .offer-modal-title {
+        font-size: 1.3rem;
+    }
+
+    .offer-modal-message {
+        font-size: 1.1rem;
+    }
+
+    .offer-modal-button {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 .search-loading,
 .search-error,
 .search-no-results {

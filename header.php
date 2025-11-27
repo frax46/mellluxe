@@ -236,6 +236,33 @@
             </div>
         </div>
 
+        <!-- Special Offer Modal -->
+        <div class="offer-modal" id="offer-modal">
+            <div class="offer-modal-overlay" id="offer-modal-overlay"></div>
+            <div class="offer-modal-content">
+                <button class="offer-modal-close" id="offer-modal-close" aria-label="Close modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="offer-modal-body">
+                    <div class="offer-modal-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="offer-modal-title">Special Offer</h2>
+                    <p class="offer-modal-message">50% off when you spend £15 or more</p>
+                    <p class="offer-modal-message">BLACK FRIDAY WEEKEND — 50% OFF</p>
+                    <p class="offer-modal-message">28–30 November</p>
+                   
+                    <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="offer-modal-button">
+                        Shop Now <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- <div id="content" class="site-content"> -->
 
         <?php

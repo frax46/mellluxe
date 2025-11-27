@@ -55,6 +55,9 @@ function mellluxe_scripts() {
     // Theme JavaScript
     wp_enqueue_script('mellluxe-script', get_template_directory_uri() . '/js/theme.js', array('gsap', 'gsap-scrolltrigger'), '1.0.0', true);
     
+    // Offer Modal JavaScript
+    wp_enqueue_script('mellluxe-offer-modal', get_template_directory_uri() . '/js/offer-modal.js', array(), '1.0.0', true);
+    
     // Localize script for AJAX
     wp_localize_script('mellluxe-script', 'mellluxe_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php'),
