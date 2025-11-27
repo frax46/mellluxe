@@ -252,8 +252,9 @@
                         </svg>
                     </div>
                     <h2 class="offer-modal-title">Special Offer</h2>
-                    <p class="offer-modal-message">50% off when you spend £15 or more</p>
                     <p class="offer-modal-message">BLACK FRIDAY WEEKEND — 50% OFF</p>
+                    <p class="offer-modal-message">when you spend £15 or more</p>
+                    <p class="offer-modal-message">USE CODE: BLACK50</p>
                     <p class="offer-modal-message">28–30 November</p>
                    
                     <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="offer-modal-button">
