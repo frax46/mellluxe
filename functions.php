@@ -156,6 +156,15 @@ if (class_exists('WooCommerce')) {
         ob_start();
         mellluxe_cart_link();
         $fragments['a.cart-contents'] = ob_get_clean();
+        
+        // Update cart count badge
+        $cart_count = WC()->cart->get_cart_contents_count();
+        ob_start();
+        ?>
+        <span class="cart-count" id="cart-count" style="<?php echo $cart_count > 0 ? '' : 'display: none;'; ?>"><?php echo esc_html($cart_count); ?></span>
+        <?php
+        $fragments['#cart-count'] = ob_get_clean();
+        
         return $fragments;
     }
     add_filter('woocommerce_add_to_cart_fragments', 'mellluxe_add_to_cart_fragment');

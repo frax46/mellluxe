@@ -140,10 +140,8 @@
                                         </svg>
                                         <?php
                                         $cart_count = WC()->cart->get_cart_contents_count();
-                                        if ($cart_count > 0):
-                                            ?>
-                                            <span class="cart-count" id="cart-count"><?php echo esc_html($cart_count); ?></span>
-                                        <?php endif; ?>
+                                        ?>
+                                        <span class="cart-count" id="cart-count" style="<?php echo $cart_count > 0 ? '' : 'display: none;'; ?>"><?php echo esc_html($cart_count); ?></span>
                                     </div>
                                 </a>
                             <?php endif; ?>

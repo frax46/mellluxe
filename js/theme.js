@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initGetInTouchScroll();
     initMobileSearch();
     initCategoriesMenu();
+    initCartCount();
 
     function initGetInTouchScroll() {
         const getInTouchButton = document.querySelector('.btn-secondary-about');
@@ -987,32 +988,137 @@ function initCartSidebar() {
             } else {
                 cartCount.style.display = 'none';
             }
+        } else {
+            // Create cart count element if it doesn't exist
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon && count > 0) {
+                const newCartCount = document.createElement('span');
+                newCartCount.className = 'cart-count';
+                newCartCount.id = 'cart-count';
+                newCartCount.textContent = count;
+                newCartCount.style.display = 'flex';
+                cartIcon.appendChild(newCartCount);
+            }
         }
     }
+}
 
-    // Listen for WooCommerce add to cart events
-    document.body.addEventListener('added_to_cart', function (event) {
-        // Update cart count
-        const cartCount = document.getElementById('cart-count');
-        if (cartCount) {
-            fetch(mellluxe_ajax.ajax_url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    action: 'get_cart_count',
-                    nonce: mellluxe_ajax.nonce
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        updateCartCount(data.data.cart_count);
+// Function to update cart count from server (global scope for event listeners)
+function updateCartCountFromServer() {
+    if (typeof mellluxe_ajax === 'undefined') return;
+    
+    const cartIcon = document.querySelector('.cart-icon');
+    if (!cartIcon) return;
+    
+    fetch(mellluxe_ajax.ajax_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'get_cart_count',
+            nonce: mellluxe_ajax.nonce
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                let cartCount = document.getElementById('cart-count');
+                
+                // Create cart count element if it doesn't exist
+                if (!cartCount && cartIcon) {
+                    cartCount = document.createElement('span');
+                    cartCount.className = 'cart-count';
+                    cartCount.id = 'cart-count';
+                    cartIcon.appendChild(cartCount);
+                }
+                
+                if (cartCount) {
+                    const count = data.data.cart_count;
+                    if (count > 0) {
+                        cartCount.textContent = count;
+                        cartCount.style.display = 'flex';
+                        cartCount.classList.add('updating');
+                        setTimeout(() => {
+                            cartCount.classList.remove('updating');
+                        }, 600);
+                    } else {
+                        cartCount.style.display = 'none';
                     }
-                });
-        }
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error updating cart count:', error);
+        });
+}
+
+// Listen for WooCommerce add to cart events (jQuery event) - global scope
+if (typeof jQuery !== 'undefined') {
+    jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {
+        // Update cart count immediately
+        updateCartCountFromServer();
     });
+    
+    // Also listen for WooCommerce fragment updates
+    jQuery(document.body).on('wc_fragment_refresh', function() {
+        updateCartCountFromServer();
+    });
+    
+    // Listen for cart updates
+    jQuery(document.body).on('updated_wc_div', function() {
+        updateCartCountFromServer();
+    });
+}
+
+// Initialize cart count on page load
+function initCartCount() {
+    // Update cart count when page loads
+    if (typeof mellluxe_ajax === 'undefined') return;
+    
+    // Wait a bit for DOM to be ready
+    setTimeout(function() {
+        const cartIcon = document.querySelector('.cart-icon');
+        if (!cartIcon) return;
+        
+        fetch(mellluxe_ajax.ajax_url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                action: 'get_cart_count',
+                nonce: mellluxe_ajax.nonce
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let cartCount = document.getElementById('cart-count');
+                    
+                    // Create cart count element if it doesn't exist
+                    if (!cartCount && cartIcon) {
+                        cartCount = document.createElement('span');
+                        cartCount.className = 'cart-count';
+                        cartCount.id = 'cart-count';
+                        cartIcon.appendChild(cartCount);
+                    }
+                    
+                    if (cartCount) {
+                        const count = data.data.cart_count;
+                        if (count > 0) {
+                            cartCount.textContent = count;
+                            cartCount.style.display = 'flex';
+                        } else {
+                            cartCount.style.display = 'none';
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error updating cart count:', error);
+            });
+    }, 500);
 }
 
 /**
