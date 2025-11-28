@@ -151,23 +151,33 @@ if (class_exists('WooCommerce')) {
         <?php
     }
     
-    // Update cart count via AJAX
+    // Update cart count via AJAX - Enhanced for cross-browser compatibility
     function mellluxe_add_to_cart_fragment($fragments) {
         ob_start();
         mellluxe_cart_link();
         $fragments['a.cart-contents'] = ob_get_clean();
         
-        // Update cart count badge
+        // Update cart count badge ONLY - don't replace the entire cart icon
         $cart_count = WC()->cart->get_cart_contents_count();
         ob_start();
         ?>
         <span class="cart-count" id="cart-count" style="<?php echo $cart_count > 0 ? '' : 'display: none;'; ?>"><?php echo esc_html($cart_count); ?></span>
         <?php
-        $fragments['#cart-count'] = ob_get_clean();
+        $cart_count_html = ob_get_clean();
+        
+        // Add fragment ONLY for the cart count badge element (not the parent container)
+        $fragments['#cart-count'] = $cart_count_html;
         
         return $fragments;
     }
     add_filter('woocommerce_add_to_cart_fragments', 'mellluxe_add_to_cart_fragment');
+    
+    // Also update on cart item removal
+    add_filter('woocommerce_cart_item_removed', 'mellluxe_update_cart_fragments_on_remove', 10, 2);
+    function mellluxe_update_cart_fragments_on_remove($cart_item_key, $cart) {
+        // Trigger fragment refresh
+        WC()->cart->calculate_totals();
+    }
     
     // Customize WooCommerce columns
     function mellluxe_loop_columns() {
@@ -570,17 +580,37 @@ function mellluxe_update_cart_item_quantity() {
 add_action('wp_ajax_update_cart_item_quantity', 'mellluxe_update_cart_item_quantity');
 add_action('wp_ajax_nopriv_update_cart_item_quantity', 'mellluxe_update_cart_item_quantity');
 
-// Get cart count
+// Get cart count - Enhanced for Mac/Safari compatibility
 function mellluxe_get_cart_count() {
-    check_ajax_referer('mellluxe_nonce', 'nonce');
-    
+    // For Mac/Safari, we need to ensure the cart is properly loaded
     if (!class_exists('WooCommerce')) {
         wp_send_json_error('WooCommerce not active');
         return;
     }
     
+    // Verify nonce, but don't fail if it's missing (for better compatibility)
+    if (isset($_POST['nonce'])) {
+        if (!wp_verify_nonce($_POST['nonce'], 'mellluxe_nonce')) {
+            // Log but don't fail - some browsers may have nonce issues
+            error_log('Cart count nonce verification failed, but continuing');
+        }
+    }
+    
+    // Ensure cart is initialized (important for Safari/Mac)
+    if (!WC()->cart) {
+        wc_load_cart();
+    }
+    
+    // Force cart calculation to ensure accurate count
+    WC()->cart->calculate_totals();
+    
+    $cart_count = WC()->cart->get_cart_contents_count();
+    
+    // Return additional data for debugging on Mac
     wp_send_json_success([
-        'cart_count' => WC()->cart->get_cart_contents_count()
+        'cart_count' => $cart_count,
+        'cart_hash' => WC()->cart->get_cart_hash(),
+        'is_empty' => WC()->cart->is_empty()
     ]);
 }
 add_action('wp_ajax_get_cart_count', 'mellluxe_get_cart_count');

@@ -141,7 +141,7 @@
                                         <?php
                                         $cart_count = WC()->cart->get_cart_contents_count();
                                         ?>
-                                        <span class="cart-count" id="cart-count" style="<?php echo $cart_count > 0 ? '' : 'display: none;'; ?>"><?php echo esc_html($cart_count); ?></span>
+                                        <span class="cart-count" id="cart-count" data-cart-count="<?php echo esc_attr($cart_count); ?>" style="<?php echo $cart_count > 0 ? '' : 'display: none;'; ?>"><?php echo esc_html($cart_count); ?></span>
                                     </div>
                                 </a>
                             <?php endif; ?>

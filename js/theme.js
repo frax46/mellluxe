@@ -26,7 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
     initGetInTouchScroll();
     initMobileSearch();
     initCategoriesMenu();
+    
+    // Initialize cart count - call early and multiple times for Mac/Safari
     initCartCount();
+    
+    // Additional initialization for shop page (Mac/Safari fix)
+    if (document.querySelector('.woocommerce-shop, .woocommerce-page, .shop-page-container')) {
+        // Force cart count update on shop page after a delay
+        setTimeout(function() {
+            if (typeof updateCartCountFromServer === 'function') {
+                updateCartCountFromServer();
+            }
+        }, 2000);
+    }
 
     function initGetInTouchScroll() {
         const getInTouchButton = document.querySelector('.btn-secondary-about');
@@ -1003,122 +1015,423 @@ function initCartSidebar() {
     }
 }
 
+// Function to update cart count badge directly (preserves cart icon)
+function updateCartCountBadge(count) {
+    const cartIcon = document.querySelector('.cart-icon');
+    if (!cartIcon) {
+        console.warn('Cart icon not found');
+        return;
+    }
+    
+    let cartCount = document.getElementById('cart-count');
+    
+    // Create cart count element if it doesn't exist (but preserve the icon)
+    if (!cartCount && cartIcon) {
+        cartCount = document.createElement('span');
+        cartCount.className = 'cart-count';
+        cartCount.id = 'cart-count';
+        // Append to cart icon (after the SVG, not replacing it)
+        cartIcon.appendChild(cartCount);
+    }
+    
+    if (cartCount) {
+        if (count > 0) {
+            cartCount.textContent = count;
+            cartCount.style.display = 'flex';
+            cartCount.classList.add('updating');
+            setTimeout(() => {
+                cartCount.classList.remove('updating');
+            }, 600);
+        } else {
+            cartCount.style.display = 'none';
+        }
+    } else {
+        console.warn('Cart count element not found and could not be created');
+    }
+}
+
 // Function to update cart count from server (global scope for event listeners)
+// Enhanced for Mac/Safari compatibility
 function updateCartCountFromServer() {
-    if (typeof mellluxe_ajax === 'undefined') return;
+    if (typeof mellluxe_ajax === 'undefined') {
+        console.warn('mellluxe_ajax not available for cart count update');
+        return;
+    }
     
     const cartIcon = document.querySelector('.cart-icon');
-    if (!cartIcon) return;
+    if (!cartIcon) {
+        // Don't fail silently - this is important for Mac/Safari
+        console.warn('Cart icon not found, cannot update cart count');
+        return;
+    }
     
-    fetch(mellluxe_ajax.ajax_url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            action: 'get_cart_count',
-            nonce: mellluxe_ajax.nonce
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                let cartCount = document.getElementById('cart-count');
-                
-                // Create cart count element if it doesn't exist
-                if (!cartCount && cartIcon) {
-                    cartCount = document.createElement('span');
-                    cartCount.className = 'cart-count';
-                    cartCount.id = 'cart-count';
-                    cartIcon.appendChild(cartCount);
-                }
-                
-                if (cartCount) {
-                    const count = data.data.cart_count;
-                    if (count > 0) {
-                        cartCount.textContent = count;
-                        cartCount.style.display = 'flex';
-                        cartCount.classList.add('updating');
-                        setTimeout(() => {
-                            cartCount.classList.remove('updating');
-                        }, 600);
-                    } else {
-                        cartCount.style.display = 'none';
-                    }
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error updating cart count:', error);
-        });
-}
-
-// Listen for WooCommerce add to cart events (jQuery event) - global scope
-if (typeof jQuery !== 'undefined') {
-    jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {
-        // Update cart count immediately
-        updateCartCountFromServer();
+    // Detect Mac/Safari for special handling
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    // Build request data
+    const requestData = new URLSearchParams({
+        action: 'get_cart_count',
+        nonce: mellluxe_ajax.nonce || ''
     });
     
-    // Also listen for WooCommerce fragment updates
-    jQuery(document.body).on('wc_fragment_refresh', function() {
-        updateCartCountFromServer();
-    });
-    
-    // Listen for cart updates
-    jQuery(document.body).on('updated_wc_div', function() {
-        updateCartCountFromServer();
-    });
-}
-
-// Initialize cart count on page load
-function initCartCount() {
-    // Update cart count when page loads
-    if (typeof mellluxe_ajax === 'undefined') return;
-    
-    // Wait a bit for DOM to be ready
-    setTimeout(function() {
-        const cartIcon = document.querySelector('.cart-icon');
-        if (!cartIcon) return;
-        
-        fetch(mellluxe_ajax.ajax_url, {
+    // Use fetch API with enhanced error handling for Mac/Safari
+    if (typeof fetch !== 'undefined') {
+        const requestOptions = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: new URLSearchParams({
-                action: 'get_cart_count',
-                nonce: mellluxe_ajax.nonce
+            body: requestData,
+            // Add credentials for Mac/Safari cookie handling
+            credentials: 'same-origin',
+            cache: 'no-cache'
+        };
+        
+        fetch(mellluxe_ajax.ajax_url, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
             })
-        })
-            .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    let cartCount = document.getElementById('cart-count');
-                    
-                    // Create cart count element if it doesn't exist
-                    if (!cartCount && cartIcon) {
-                        cartCount = document.createElement('span');
-                        cartCount.className = 'cart-count';
-                        cartCount.id = 'cart-count';
-                        cartIcon.appendChild(cartCount);
-                    }
-                    
-                    if (cartCount) {
-                        const count = data.data.cart_count;
-                        if (count > 0) {
-                            cartCount.textContent = count;
-                            cartCount.style.display = 'flex';
-                        } else {
-                            cartCount.style.display = 'none';
-                        }
+                if (data && data.success) {
+                    const count = parseInt(data.data.cart_count) || 0;
+                    updateCartCountBadge(count);
+                } else {
+                    console.warn('Cart count update returned unsuccessful:', data);
+                    // For Mac/Safari, try using server-side rendered count as fallback
+                    if (isMac || isSafari) {
+                        useServerSideCartCount();
                     }
                 }
             })
             .catch(error => {
                 console.error('Error updating cart count:', error);
+                // Enhanced fallback for Mac/Safari
+                if (isMac || isSafari) {
+                    // Try XMLHttpRequest as fallback
+                    updateCartCountViaXHR();
+                } else {
+                    // Regular retry for other browsers
+                    setTimeout(updateCartCountFromServer, 1000);
+                }
             });
-    }, 500);
+    } else {
+        // Fallback for older browsers using XMLHttpRequest
+        updateCartCountViaXHR();
+    }
+    
+    // XMLHttpRequest fallback function
+    function updateCartCountViaXHR() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', mellluxe_ajax.ajax_url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.withCredentials = true; // Important for Mac/Safari
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data && data.success) {
+                            const count = parseInt(data.data.cart_count) || 0;
+                            updateCartCountBadge(count);
+                        } else {
+                            useServerSideCartCount();
+                        }
+                    } catch (e) {
+                        console.error('Error parsing cart count response:', e);
+                        useServerSideCartCount();
+                    }
+                } else {
+                    console.error('XHR failed with status:', xhr.status);
+                    useServerSideCartCount();
+                }
+            }
+        };
+        
+        xhr.send(requestData.toString());
+    }
+    
+    // Fallback: Use server-side rendered count (important for Mac/Safari)
+    function useServerSideCartCount() {
+        const existingCount = document.getElementById('cart-count');
+        if (existingCount) {
+            // Try data attribute first (more reliable)
+            let serverCount = parseInt(existingCount.getAttribute('data-cart-count')) || 0;
+            // Fallback to text content
+            if (serverCount === 0) {
+                serverCount = parseInt(existingCount.textContent.trim()) || 0;
+            }
+            if (serverCount > 0) {
+                updateCartCountBadge(serverCount);
+            }
+        }
+        
+        // Also try WooCommerce cart object if available (Mac/Safari specific)
+        if (typeof wc_add_to_cart_params !== 'undefined' && typeof jQuery !== 'undefined') {
+            try {
+                jQuery(document.body).trigger('wc_update_cart');
+            } catch (e) {
+                console.warn('Could not trigger WooCommerce cart update:', e);
+            }
+        }
+    }
+}
+
+// Enhanced WooCommerce event listeners for cross-browser compatibility
+(function() {
+    // Wait for both jQuery and WooCommerce to be ready
+    function setupCartUpdateListeners() {
+        // Intercept add to cart button clicks for immediate feedback
+        document.addEventListener('click', function(e) {
+            const addToCartBtn = e.target.closest('.add_to_cart_button, .single_add_to_cart_button, button[type="submit"][name="add-to-cart"]');
+            if (addToCartBtn && !addToCartBtn.classList.contains('disabled')) {
+                // Update cart count after a short delay to allow WooCommerce to process
+                setTimeout(function() {
+                    updateCartCountFromServer();
+                }, 500);
+                
+                // Also update again after a longer delay as fallback
+                setTimeout(function() {
+                    updateCartCountFromServer();
+                }, 1500);
+            }
+        }, true);
+        
+        // jQuery-based listeners (WooCommerce standard)
+        if (typeof jQuery !== 'undefined') {
+            // Listen for add to cart event - PRIMARY METHOD
+            jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {
+                // Update immediately from fragments if available
+                if (fragments && fragments['#cart-count']) {
+                    const fragmentHTML = fragments['#cart-count'];
+                    const cartCount = document.getElementById('cart-count');
+                    const cartIcon = document.querySelector('.cart-icon');
+                    
+                    if (cartCount && cartIcon) {
+                        // Only update the innerHTML/text, don't replace the entire element
+                        // Parse the fragment to get just the text content
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = fragmentHTML;
+                        const newCartCount = tempDiv.querySelector('#cart-count') || tempDiv.querySelector('.cart-count');
+                        
+                        if (newCartCount) {
+                            // Update the count text and visibility
+                            const count = newCartCount.textContent.trim();
+                            const countNum = parseInt(count) || 0;
+                            
+                            cartCount.textContent = count;
+                            if (countNum > 0) {
+                                cartCount.style.display = 'flex';
+                                cartCount.classList.add('updating');
+                                setTimeout(() => {
+                                    cartCount.classList.remove('updating');
+                                }, 600);
+                            } else {
+                                cartCount.style.display = 'none';
+                            }
+                        }
+                    } else if (cartIcon && !cartCount) {
+                        // Cart count doesn't exist, create it
+                        cartIcon.insertAdjacentHTML('beforeend', fragmentHTML);
+                        const newCartCount = document.getElementById('cart-count');
+                        if (newCartCount) {
+                            newCartCount.classList.add('updating');
+                            setTimeout(() => {
+                                newCartCount.classList.remove('updating');
+                            }, 600);
+                        }
+                    } else {
+                        // Fallback: fetch from server
+                        updateCartCountFromServer();
+                    }
+                } else {
+                    // Fallback: fetch from server immediately
+                    updateCartCountFromServer();
+                }
+                
+                // Double-check after a delay
+                setTimeout(function() {
+                    updateCartCountFromServer();
+                }, 1000);
+            });
+            
+            // Listen for fragment refresh (WooCommerce built-in)
+            jQuery(document.body).on('wc_fragment_refresh wc_fragments_refreshed', function(event, fragments) {
+                if (fragments && fragments['#cart-count']) {
+                    const fragmentHTML = fragments['#cart-count'];
+                    const cartCount = document.getElementById('cart-count');
+                    const cartIcon = document.querySelector('.cart-icon');
+                    
+                    if (cartCount && cartIcon) {
+                        // Only update content, not replace element
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = fragmentHTML;
+                        const newCartCount = tempDiv.querySelector('#cart-count') || tempDiv.querySelector('.cart-count');
+                        
+                        if (newCartCount) {
+                            const count = newCartCount.textContent.trim();
+                            const countNum = parseInt(count) || 0;
+                            
+                            cartCount.textContent = count;
+                            if (countNum > 0) {
+                                cartCount.style.display = 'flex';
+                            } else {
+                                cartCount.style.display = 'none';
+                            }
+                        }
+                    } else if (cartIcon && !cartCount) {
+                        cartIcon.insertAdjacentHTML('beforeend', fragmentHTML);
+                    } else {
+                        updateCartCountFromServer();
+                    }
+                } else {
+                    updateCartCountFromServer();
+                }
+            });
+            
+            // Listen for cart updates
+            jQuery(document.body).on('updated_wc_div updated_cart_totals', function() {
+                updateCartCountFromServer();
+            });
+            
+            // Listen for cart item removed
+            jQuery(document.body).on('removed_from_cart', function() {
+                updateCartCountFromServer();
+            });
+            
+            // Intercept WooCommerce AJAX add to cart
+            jQuery(document).on('submit', 'form.cart, form.woocommerce-cart-form', function(e) {
+                const form = jQuery(this);
+                if (form.find('input[name="add-to-cart"]').length || form.find('button[type="submit"][name="add-to-cart"]').length) {
+                    // This is an add to cart form
+                    setTimeout(function() {
+                        updateCartCountFromServer();
+                    }, 500);
+                    setTimeout(function() {
+                        updateCartCountFromServer();
+                    }, 1500);
+                }
+            });
+        }
+        
+        // Also listen for native DOM events as fallback
+        document.body.addEventListener('added_to_cart', function(event) {
+            updateCartCountFromServer();
+        });
+        
+        // Listen for custom events that might be triggered
+        window.addEventListener('cart_updated', function() {
+            updateCartCountFromServer();
+        });
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCartUpdateListeners);
+    } else {
+        setupCartUpdateListeners();
+    }
+    
+    // Also set up when jQuery is ready (if available)
+    if (typeof jQuery !== 'undefined') {
+        jQuery(document).ready(setupCartUpdateListeners);
+    }
+    
+    // Force update on page visibility change (user switches tabs/windows)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible, refresh cart count
+            updateCartCountFromServer();
+        }
+    });
+})();
+
+// Initialize cart count on page load - Enhanced for Mac/Safari compatibility
+function initCartCount() {
+    // Update cart count when page loads
+    if (typeof mellluxe_ajax === 'undefined') {
+        console.warn('mellluxe_ajax not defined, cart count initialization skipped');
+        return;
+    }
+    
+    // Detect if we're on Mac/Safari
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    // Wait for DOM and WooCommerce to be ready
+    function doInit(attempt = 1) {
+        const maxAttempts = isMac || isSafari ? 5 : 3; // More attempts for Mac/Safari
+        
+        // First, check if cart count is already in the DOM (from server-side render)
+        const existingCount = document.getElementById('cart-count');
+        const cartIcon = document.querySelector('.cart-icon');
+        
+        if (!cartIcon) {
+            if (attempt < maxAttempts) {
+                // Retry if cart icon not found (common on Mac/Safari)
+                setTimeout(() => doInit(attempt + 1), 500);
+            }
+            return;
+        }
+        
+        if (existingCount) {
+            const currentText = existingCount.textContent.trim();
+            const currentCount = parseInt(currentText) || 0;
+            if (currentCount > 0) {
+                // Already has count from server, ensure it's visible
+                existingCount.style.display = 'flex';
+            }
+        }
+        
+        // Always update from server to ensure accuracy (especially important for Mac/Safari)
+        updateCartCountFromServerWithRetry(attempt, maxAttempts);
+    }
+    
+    // Multiple initialization attempts for Mac/Safari
+    function updateCartCountFromServerWithRetry(attempt, maxAttempts) {
+        updateCartCountFromServer();
+        
+        // Retry for Mac/Safari if first attempt fails
+        if ((isMac || isSafari) && attempt < maxAttempts) {
+            setTimeout(() => {
+                updateCartCountFromServer();
+            }, 1000 * attempt); // Staggered retries
+        }
+    }
+    
+    // Wait for DOM to be ready - multiple strategies for Mac/Safari
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => doInit(1), isMac || isSafari ? 500 : 300);
+        });
+    } else {
+        setTimeout(() => doInit(1), isMac || isSafari ? 500 : 300);
+    }
+    
+    // Also update when jQuery/WooCommerce is ready
+    if (typeof jQuery !== 'undefined') {
+        jQuery(document).ready(function() {
+            setTimeout(() => doInit(1), isMac || isSafari ? 800 : 500);
+        });
+        
+        // Additional check for WooCommerce being ready (important for Mac)
+        if (typeof wc_add_to_cart_params !== 'undefined') {
+            setTimeout(() => doInit(1), 1000);
+        }
+    }
+    
+    // Force update after page is fully loaded (Mac/Safari specific)
+    if (isMac || isSafari) {
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                updateCartCountFromServer();
+            }, 1500);
+        });
+    }
 }
 
 /**
