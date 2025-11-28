@@ -30,15 +30,84 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize cart count - call early and multiple times for Mac/Safari
     initCartCount();
     
-    // Additional initialization for shop page (Mac/Safari fix)
-    if (document.querySelector('.woocommerce-shop, .woocommerce-page, .shop-page-container')) {
-        // Force cart count update on shop page after a delay
-        setTimeout(function() {
-            if (typeof updateCartCountFromServer === 'function') {
-                updateCartCountFromServer();
-            }
-        }, 2000);
+    // Additional initialization for shop page and product category pages
+    function initShopAndCategoryCartCount() {
+        const isShopPage = document.querySelector('.woocommerce-shop, .woocommerce-page, .shop-page-container, .woocommerce');
+        const isProductCategory = window.location.pathname.includes('/product-category/');
+        
+        if (isShopPage || isProductCategory) {
+            // Multiple attempts to ensure cart count loads on shop/category pages
+            const updateAttempts = [500, 1000, 2000, 3000, 5000];
+            
+            updateAttempts.forEach(function(delay) {
+                setTimeout(function() {
+                    if (typeof updateCartCountFromServer === 'function') {
+                        updateCartCountFromServer();
+                    }
+                }, delay);
+            });
+            
+            // Periodic refresh every 10 seconds for shop/category pages (ensures cart stays updated)
+            const periodicRefresh = setInterval(function() {
+                if (typeof updateCartCountFromServer === 'function') {
+                    updateCartCountFromServer();
+                }
+            }, 10000);
+            
+            // Clear interval when user leaves the page
+            window.addEventListener('beforeunload', function() {
+                clearInterval(periodicRefresh);
+            });
+            
+            // Also update when page becomes visible (user switches tabs)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden && (isShopPage || isProductCategory)) {
+                    setTimeout(function() {
+                        if (typeof updateCartCountFromServer === 'function') {
+                            updateCartCountFromServer();
+                        }
+                    }, 500);
+                }
+            });
+            
+            // Update on scroll (some lazy loading scenarios)
+            let scrollUpdateTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollUpdateTimeout);
+                scrollUpdateTimeout = setTimeout(function() {
+                    if (typeof updateCartCountFromServer === 'function') {
+                        updateCartCountFromServer();
+                    }
+                }, 1000);
+            }, { once: false, passive: true });
+            
+            // Update when add to cart buttons are clicked (even if event doesn't fire)
+            document.addEventListener('click', function(e) {
+                const addToCartBtn = e.target.closest('.add_to_cart_button, .single_add_to_cart_button, button[type="submit"][name="add-to-cart"]');
+                if (addToCartBtn && !addToCartBtn.classList.contains('disabled')) {
+                    // Update cart count after add to cart (with multiple delays)
+                    setTimeout(function() {
+                        if (typeof updateCartCountFromServer === 'function') {
+                            updateCartCountFromServer();
+                        }
+                    }, 800);
+                    setTimeout(function() {
+                        if (typeof updateCartCountFromServer === 'function') {
+                            updateCartCountFromServer();
+                        }
+                    }, 2000);
+                    setTimeout(function() {
+                        if (typeof updateCartCountFromServer === 'function') {
+                            updateCartCountFromServer();
+                        }
+                    }, 4000);
+                }
+            }, true);
+        }
     }
+    
+    // Initialize shop/category cart count
+    initShopAndCategoryCartCount();
 
     function initGetInTouchScroll() {
         const getInTouchButton = document.querySelector('.btn-secondary-about');
@@ -411,7 +480,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         anchorLinks.forEach(link => {
             link.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
+                const href = this.getAttribute('href');
+                
+                // Validate href - must be a valid selector and not just "#"
+                if (!href || href === '#' || !href.startsWith('#')) {
+                    return; // Allow default behavior for invalid selectors
+                }
+                
+                // Extract the selector (remove # if present)
+                const selector = href.startsWith('#') ? href : '#' + href;
+                
+                // Validate selector is not just "#"
+                if (selector === '#') {
+                    return; // Allow default behavior
+                }
+                
+                const target = document.querySelector(selector);
 
                 if (target) {
                     e.preventDefault();
@@ -828,6 +912,19 @@ function initCartSidebar() {
     // Open cart sidebar
     cartToggle.addEventListener('click', function (e) {
         e.preventDefault();
+        
+        // Refresh cart count if on product category page or shop page
+        const currentPath = window.location.pathname;
+        const isProductCategory = currentPath.includes('/product-category/');
+        const isShopPage = currentPath.includes('/shop') || document.querySelector('.woocommerce-shop, .woocommerce-page');
+        
+        if (isProductCategory || isShopPage) {
+            // Force refresh cart count before opening sidebar
+            if (typeof updateCartCountFromServer === 'function') {
+                updateCartCountFromServer();
+            }
+        }
+        
         openCartSidebar();
     });
 
@@ -866,29 +963,66 @@ function initCartSidebar() {
 
         cartSidebarBody.innerHTML = '<div class="cart-loading"><p>Loading cart...</p></div>';
 
+        // Refresh cart count before loading cart content (important for shop/category pages)
+        if (typeof updateCartCountFromServer === 'function') {
+            updateCartCountFromServer();
+        }
+
+        // Build request with error handling for 403 errors
+        const requestBody = new URLSearchParams({
+            action: 'get_cart_contents'
+        });
+        
+        // Add nonce if available
+        if (mellluxe_ajax.nonce) {
+            requestBody.append('nonce', mellluxe_ajax.nonce);
+        }
+        
         fetch(mellluxe_ajax.ajax_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: new URLSearchParams({
-                action: 'get_cart_contents',
-                nonce: mellluxe_ajax.nonce
-            })
+            body: requestBody,
+            credentials: 'same-origin'
         })
-            .then(response => response.json())
+            .then(response => {
+                // Handle 403 errors specifically
+                if (response.status === 403) {
+                    console.warn('Cart contents request forbidden (403)');
+                    cartSidebarBody.innerHTML = '<div class="cart-empty"><p>Unable to load cart. Please refresh the page.</p></div>';
+                    // Try to use server-side count
+                    useServerSideCartCount();
+                    throw new Error('403 Forbidden');
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     cartSidebarBody.innerHTML = data.data.html;
                     updateCartTotal(data.data.total);
+                    
+                    // Update cart count from cart contents response
+                    if (data.data.cart_count !== undefined) {
+                        updateCartCount(data.data.cart_count);
+                    }
+                    
                     initCartItemEvents();
                 } else {
                     cartSidebarBody.innerHTML = '<div class="cart-empty"><p>Your cart is empty</p></div>';
+                    // Update count to 0 if cart is empty
+                    updateCartCount(0);
                 }
             })
             .catch(error => {
                 console.error('Error loading cart:', error);
-                cartSidebarBody.innerHTML = '<div class="cart-empty"><p>Error loading cart</p></div>';
+                if (!error.message.includes('403')) {
+                    cartSidebarBody.innerHTML = '<div class="cart-empty"><p>Error loading cart</p></div>';
+                }
             });
     }
 
@@ -1090,6 +1224,13 @@ function updateCartCountFromServer() {
         
         fetch(mellluxe_ajax.ajax_url, requestOptions)
             .then(response => {
+                // Handle 403 errors specifically
+                if (response.status === 403) {
+                    console.warn('Cart count request forbidden (403) - using fallback');
+                    useServerSideCartCount();
+                    throw new Error('403 Forbidden - using server-side count');
+                }
+                
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ' + response.status);
                 }
@@ -1101,21 +1242,22 @@ function updateCartCountFromServer() {
                     updateCartCountBadge(count);
                 } else {
                     console.warn('Cart count update returned unsuccessful:', data);
-                    // For Mac/Safari, try using server-side rendered count as fallback
-                    if (isMac || isSafari) {
-                        useServerSideCartCount();
-                    }
+                    // Always use server-side rendered count as fallback
+                    useServerSideCartCount();
                 }
             })
             .catch(error => {
                 console.error('Error updating cart count:', error);
-                // Enhanced fallback for Mac/Safari
-                if (isMac || isSafari) {
-                    // Try XMLHttpRequest as fallback
-                    updateCartCountViaXHR();
-                } else {
-                    // Regular retry for other browsers
-                    setTimeout(updateCartCountFromServer, 1000);
+                // Always use fallback on error
+                useServerSideCartCount();
+                
+                // Retry only if it's not a 403 error
+                if (!error.message.includes('403')) {
+                    if (isMac || isSafari) {
+                        updateCartCountViaXHR();
+                    } else {
+                        setTimeout(updateCartCountFromServer, 1000);
+                    }
                 }
             });
     } else {
@@ -1366,6 +1508,10 @@ function initCartCount() {
     function doInit(attempt = 1) {
         const maxAttempts = isMac || isSafari ? 5 : 3; // More attempts for Mac/Safari
         
+        // Check if we're on shop page or product category
+        const isShopPage = document.querySelector('.woocommerce-shop, .woocommerce-page, .shop-page-container, .woocommerce');
+        const isProductCategory = window.location.pathname.includes('/product-category/');
+        
         // First, check if cart count is already in the DOM (from server-side render)
         const existingCount = document.getElementById('cart-count');
         const cartIcon = document.querySelector('.cart-icon');
@@ -1379,16 +1525,28 @@ function initCartCount() {
         }
         
         if (existingCount) {
-            const currentText = existingCount.textContent.trim();
-            const currentCount = parseInt(currentText) || 0;
-            if (currentCount > 0) {
+            // Try data attribute first (more reliable)
+            let serverCount = parseInt(existingCount.getAttribute('data-cart-count')) || 0;
+            if (serverCount === 0) {
+                serverCount = parseInt(existingCount.textContent.trim()) || 0;
+            }
+            
+            if (serverCount > 0) {
                 // Already has count from server, ensure it's visible
                 existingCount.style.display = 'flex';
+                existingCount.textContent = serverCount;
             }
         }
         
-        // Always update from server to ensure accuracy (especially important for Mac/Safari)
-        updateCartCountFromServerWithRetry(attempt, maxAttempts);
+        // Always update from server to ensure accuracy (especially important for shop/category pages and Mac/Safari)
+        if (isShopPage || isProductCategory) {
+            // More aggressive updates for shop/category pages
+            updateCartCountFromServer();
+            setTimeout(() => updateCartCountFromServer(), 1000);
+            setTimeout(() => updateCartCountFromServer(), 2000);
+        } else {
+            updateCartCountFromServerWithRetry(attempt, maxAttempts);
+        }
     }
     
     // Multiple initialization attempts for Mac/Safari
