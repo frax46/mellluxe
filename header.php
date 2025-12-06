@@ -88,6 +88,7 @@
                             </li>
                             <?php endif; ?>
                             <li><a href="/gift-card">Gift Sets</a></li>
+                            <li><a href="/botanics">Botanics</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/blog">Blog</a></li>
                             <li>
@@ -254,7 +255,7 @@
                     <p class="offer-modal-message">Use Code: GreenBells5</p>
                     <p class="offer-modal-message">(Valid until 31 December)</p>
                    
-                    <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="offer-modal-button">
+                    <a href="<?php esc_url(home_url('/product-category/all-products/')); ?>" class="offer-modal-button">
                         Shop Now <span>→</span>
                     </a>
                 </div>
