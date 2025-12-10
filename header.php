@@ -255,7 +255,7 @@
                     <p class="offer-modal-message">Use Code: GreenBells5</p>
                     <p class="offer-modal-message">(Valid until 31 December)</p>
                    
-                    <a href="<?php esc_url(home_url('/product-category/all-products/')); ?>" class="offer-modal-button">
+                    <a href="<?php echo esc_url(home_url('/product-category/all-products/')); ?>" class="offer-modal-button">
                         Shop Now <span>→</span>
                     </a>
                 </div>
