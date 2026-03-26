@@ -14,7 +14,40 @@ get_header(); ?>
         <h2 style="color:var(--primary-color);font-weight:300;font-size:2.2rem;margin-bottom:8px;letter-spacing:2px;">
             Welcome Back</h2>
         <p style="color:#443764;font-size:1rem;margin-bottom:24px;">Sign in to your Mell Luxe account</p>
-        <?php echo do_shortcode('[ultimatemember form_id="154"]'); ?>
+        <?php
+        if ( is_user_logged_in() ) {
+            echo '<p style="color:#443764;margin-bottom:16px;">' . esc_html__( 'You are already signed in.', 'mellluxeV4' ) . '</p>';
+            echo '<a href="' . esc_url( home_url( '/my-account/' ) ) . '" class="mellluxe-login-logout" style="display:inline-block;margin-top:8px;">' . esc_html__( 'Go to My Account', 'mellluxeV4' ) . '</a>';
+            echo '<span style="display:inline-block;margin:0 8px;color:#9b93ad;">|</span>';
+            echo '<a href="' . esc_url( wp_logout_url( home_url( '/login/' ) ) ) . '" class="mellluxe-login-logout" style="display:inline-block;margin-top:8px;">' . esc_html__( 'Log out', 'mellluxeV4' ) . '</a>';
+        } else {
+            $login_markup = '';
+
+            if ( function_exists( 'UM' ) && is_object( UM() ) ) {
+                // Uses Ultimate Member default login form; some UM setups return links only.
+                $login_markup = do_shortcode( '[ultimatemember_login]' );
+            }
+
+            $has_form_markup = ! empty( $login_markup ) && false !== stripos( $login_markup, '<form' );
+
+            if ( $has_form_markup ) {
+                echo $login_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            } else {
+                echo '<div class="mellluxe-wp-login-wrap">';
+                wp_login_form(
+                    array(
+                        'redirect'       => home_url( '/' ),
+                        'form_id'        => 'mellluxe-wp-login',
+                        'label_username' => __( 'Username or Email Address', 'mellluxeV4' ),
+                        'label_password' => __( 'Password', 'mellluxeV4' ),
+                        'label_remember' => __( 'Remember Me', 'mellluxeV4' ),
+                        'label_log_in'   => __( 'Log In', 'mellluxeV4' ),
+                    )
+                );
+                echo '</div>';
+            }
+        }
+        ?>
         <div style="margin-top:24px;font-size:0.95rem;color:#443764;">
             <span>Don't have an account?</span>
             <a href="/register"
@@ -114,6 +147,64 @@ get_header(); ?>
         box-shadow: 0 6px 24px rgba(253, 226, 141, 0.18);
     }
 
+    .login-card .mellluxe-wp-login-wrap {
+        text-align: left;
+    }
+
+    .login-card .mellluxe-wp-login-wrap label {
+        display: block;
+        color: #443764;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .login-card .mellluxe-wp-login-wrap input[type="text"],
+    .login-card .mellluxe-wp-login-wrap input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-bottom: 14px;
+        box-sizing: border-box;
+    }
+
+    .login-card .mellluxe-wp-login-wrap .login-remember {
+        margin-bottom: 16px;
+    }
+
+    .login-card .mellluxe-wp-login-wrap .login-remember label {
+        display: inline;
+        font-weight: 500;
+        margin-left: 6px;
+    }
+
+    .login-card .mellluxe-wp-login-wrap input[type="submit"] {
+        width: 100%;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, var(--secondary-color) 60%, #ffe9a7 100%);
+        color: var(--primary-color);
+        font-weight: 600;
+        border: 2px solid var(--secondary-color);
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .login-card .mellluxe-wp-login-wrap input[type="submit"]:hover {
+        filter: brightness(1.02);
+    }
+
+    .login-card .mellluxe-login-logout {
+        color: var(--secondary-color);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .login-card .mellluxe-login-logout:hover {
+        text-decoration: underline;
+    }
 
     @media(max-width: 1200px) {
         .login-card {

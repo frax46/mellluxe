@@ -98,7 +98,7 @@
                     <div class="footer-navigation">
                         <ul class="footer-links">
                             <li>
-                                <a href="<?php echo esc_url(home_url('/terms-and-privacy/')); ?>" class="legal-link">My
+                                <a href="<?php echo esc_url(home_url('/my-account/')); ?>" class="legal-link">My
                                     Account</a>
                             </li>
                             <li>

@@ -243,6 +243,36 @@ if (class_exists('WooCommerce')) {
 }
 
 /**
+ * Redirect legacy `/user/` route to WooCommerce `/my-account/`.
+ */
+function mellluxe_redirect_user_to_my_account() {
+    // Prevent redirects in admin screens and AJAX.
+    if (is_admin()) return;
+    if (defined('DOING_AJAX') && DOING_AJAX) return;
+
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? (string) $_SERVER['REQUEST_URI'] : '';
+    $path = parse_url($request_uri, PHP_URL_PATH);
+    $path = trim((string) $path, '/');
+    $wp_request = (isset($GLOBALS['wp']) && isset($GLOBALS['wp']->request)) ? (string) $GLOBALS['wp']->request : '';
+    $wp_request = trim($wp_request, '/');
+
+    // Redirect `/user/` and everything underneath `/user/*`.
+    if (
+        $path === 'user' ||
+        strpos($path, 'user/') === 0 ||
+        preg_match('#^/user(?:/|$)#i', $request_uri) === 1 ||
+        $wp_request === 'user' ||
+        strpos($wp_request, 'user/') === 0
+    ) {
+        // Use wp_redirect to avoid edge cases where safe_redirect blocks the target.
+        wp_redirect( home_url( '/my-account/' ), 301 );
+        exit;
+    }
+}
+add_action('init', 'mellluxe_redirect_user_to_my_account', -1000);
+add_action('wp', 'mellluxe_redirect_user_to_my_account', -1000);
+
+/**
  * AJAX handlers
  */
 function mellluxe_load_more_products() {
